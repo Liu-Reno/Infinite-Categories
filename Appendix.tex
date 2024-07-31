@@ -1,0 +1,35 @@
+\chapter{同伦论}
+在本篇附录中,我们略微回顾代数拓扑中的同伦论内容,这对于$\infty$-范畴的情况是有益的.在阅读顺序上,本篇可以接续在\ref{闭幺半与CGWH}节之后,本篇所主要使用的范畴为$\cate{CGWH}$.本篇的内容基本来自于\parencite[Chapter I]{Mit-AT-II},\cite{StricklandCGWH}以及\cite{李思}.
+\begin{wenxintishi}
+    在本篇中, $\times$与$\prod$均为$\cate{CG}$中的情况,对于拓扑空间的情况将使用$\times^t$或$\prod^t$表示.
+\end{wenxintishi}
+\section{关于$\cate{CGWH}$的进一步讨论}
+\subsection{关于$\cate{CG}$的进一步讨论}
+首先对于$\cate{CG}$进行一些补充.
+
+当然,我们可以具体的描绘一下映射空间$Y^X = \Hom_{\cate{CG}}(X,Y)$.对于一般的拓扑空间$X$,$Y$而言,我们比较喜欢给$Y^X = \Hom_{\cate{Top}}(X,Y)$赋予紧开拓扑,即
+\[
+  V(F,U) = \{f: X \to Y : f(F) \subset U\}
+\]
+其中$F$取遍$X$的所有紧集,且$U$取遍$Y$的所有开集所生成的拓扑.这个空间通常来说并不会是紧生成的,并且也不会作为乘积的右伴随.\\
+若$X$和$Y$是紧生成空间(定义\ref{定义:紧生成空间}),可以得到一个自然的修改:我们将$F$替换为``$k$-紧''子集,即存在紧 Hausdorff 空间$K$以及映射$k: K \to X$使得$k(K) = F$.这是对于有些紧空间不存在来自于紧 Hausdorff 空间的满射这一事实的妥协.\\
+现在考虑$F$遍历全体$X$中的$k$-紧子集而$U$遍历$Y$中开集的$V(F,U)$所生成的新拓扑.即便我们假设$X$和$Y$都是紧生成的,这也无法说明这个新拓扑确实是紧生成的,但是我们可以用命题\ref{命题:紧生成化与嵌入函子伴随}所提到的$k$将其提升为紧生成空间,以后直接记为$Y^X$或$\Hom_{\cate{CG}_*}(X,Y)$.
+\begin{lemma}
+    对于$X,Y\in \cate{CG}$, $K$为紧 Hausdorff 空间,且$f: K \to X$是连续映射.则求值映射
+    \begin{align*}
+    \ev_K : \Hom_{\cate{CG}}(X,Y) \utimes{t} K &\to Y\\
+    (g,k) &\mapsto (g\circ f)(k)
+    \end{align*}
+    是连续的.特别地, $\Hom_{\cate{CG}}(X,Y) \times K \to Y$是连续的.
+\end{lemma}
+\begin{proof}
+    
+\end{proof}
+\section{纤维化,余纤维化}
+\subsection{纤维化,群胚}
+\subsection{余纤维化}
+\section{弱等价与 Whitehead 定理}
+\section{向量丛与主丛}
+\subsection{向量丛,主丛}
+\subsection{分类空间}
+\subsection{$\check{\text{C}}$ech 范畴与分类映射}

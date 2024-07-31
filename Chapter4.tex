@@ -1,0 +1,1069 @@
+\chapter{$\infty$-范畴中的同伦}
+\section{纵览}
+首先,我们来定义何为单纯集的同伦,我们知道在拓扑空间中有$[0,1]=|\Delta^1|$,因此可以很轻松地将拓扑空间的同伦改写为
+\[
+    |\Delta^1|\times X \xrightarrow{H} Y
+\]
+其中$X$和$Y$为拓扑空间.因此可以类似地将同伦的定义推广到单纯集之间,这个时候我们需要考虑单纯集的积.
+\begin{definition}[单纯集的积]
+    对任意两个单纯集$X$和$Y$,就可以定义它们的逐项积
+\begin{align*}
+    (X\times Y)_n &= X_n \times Y_n\\
+    d_i(x,y) &= (d_i(x),d_i(y))\\
+    s_j(x,y) &= (s_j(x),s_j(y)).
+\end{align*}
+\end{definition}
+\begin{theorem}\label{The:单纯集的积的几何意义}
+    对于单纯集$X$和$Y$,,我们有典范双射
+    \[
+    \theta_{X,Y}:|X\times Y| \to |X|\times |Y|
+    \]
+    而若$X$和$Y$其中之一仅有有限多个非退化单纯形,典范态射$\theta_{X,Y}:|X\times Y| \simeq |X|\times |Y|$为同胚.
+\end{theorem}
+\begin{proof}
+    见\parencite[\href{https://kerodon.net/tag/013E}{013E}]{Kerodon}.
+\end{proof}
+\begin{remark}
+    当然我们可以选定范畴为$\cate{CGWH}$,这样在一般的情况下也为同胚,这也说明$\cate{CGWH}$版本的几何实现$|-|$是保有限$\prolim$的.
+\end{remark}
+而后我们可以很自然地定义出同伦来,对于$\cate{sSet}$中的态射$f,g : X \rightrightarrows Y$定义$g$到$f$的同伦为态射$H: X\times \Delta^1 \to Y$,使得下图交换:
+\[\begin{tikzcd}
+	{X\times \Delta^0} && X \\
+	{X\times \Delta^1} && Y \\
+	{X\times \Delta^0} && X
+	\arrow["\sim", from=1-1, to=1-3]
+	\arrow["{\identity_X \times \delta^0}"', from=1-1, to=2-1]
+	\arrow["f"{description}, from=1-3, to=2-3]
+	\arrow["H"{description}, from=2-1, to=2-3]
+	\arrow["{\identity_X\times \delta^1}", from=3-1, to=2-1]
+	\arrow["\sim"', from=3-1, to=3-3]
+	\arrow["g"{description}, from=3-3, to=2-3]
+\end{tikzcd}\]
+当然,我们也可以给出一个更加抽象的定义,观察到单纯集$X$和$Y$之间的所有态射构成的集合$\Fct(X,Y)$也带有自然地单纯集结构,其$n$-单形对应于$X\times \Delta^n \to Y$的映射,接下来我们将同伦定义在$\Fct(X,Y)$上.
+\begin{definition}\label{定义:单纯集中态射同伦}
+    令$X$,$Y$为单纯集,并且假设有一对态射$f,g : X\to Y$,将它们视为$\Fct(X,Y)$中的顶点,若$f$与$g$落在$\pi_0 \Fct(X,Y)$中同一个连通分支里,则称$f$与$g$是同伦的.
+\end{definition}
+深入研究单纯集中态射同伦将是\ref{单纯集的同伦}一节的主题.\\
+在本章中,我们的目标是学习一些纤维化态射,它们将有助于研究Kan复形以及$\infty$-范畴的同伦理论.
+\begin{itemize}
+    \item 称态射$q: X\to S$为平凡 Kan 纤维化当且仅当对于任意$n \geq 0$,它对于嵌入$\partial \Delta^n \hookrightarrow \Delta^n$都具有右提升性质.若$q: X \to S$为平凡 Kan 纤维化,则对于所有顶点$s\in S$有纤维$X_s = \{s\} \dtimes{S} X$为可缩 Kan 复形.
+    \item 称态射$q: X\to S$为Kan 纤维化当且仅当它对于每个尖角嵌入$\Lambda_i^n \hookrightarrow \Delta^n$都具有右提升性质.若$q: X \to S$为Kan 纤维化,则对于所有顶点$s\in S$有纤维$X_s = \{s\} \dtimes{S} X$为Kan 复形.
+    \item 称态射$q: X\to S$为内纤维化当且仅当它对于每个内尖角嵌入$\Lambda_i^n \hookrightarrow \Delta^n$都具有右提升性质.若$q$为内纤维化,则对于所有顶点$s\in S$有纤维$X_s = \{s\} \dtimes{S} X$为$\infty$-范畴.
+    \item 称态射$q: X\to S$为左纤维化当且仅当它对于$0\leq i <n$的尖角嵌入$\Lambda_i^n \hookrightarrow \Delta^n$都具有右提升性质.若$q:X \to S$对于$0< i \leq n$的尖角嵌入$\Lambda_i^n \hookrightarrow \Delta^n$具有右提升性质则称$q$为右纤维化的.若$p$是左纤维化或右纤维化的,则对于所有顶点$s\in S$,纤维$X_s$是Kan 复形.我们将看到$s\mapsto X_s$在$q$是左纤维化时为协变函子,在$q$是右纤维化时为反变函子.
+    \item 称态射$q: X\to S$为同纤维化当且仅当它对于单纯集的嵌入(且同时为范畴等价)$A \hookrightarrow B$都具有右提升性质.当$X$和$S$都是$\infty$-范畴时,这一条件相当于在说$q$是一个在同构意义下满足一个提升条件的内纤维化.
+\end{itemize}
+而对这些右提升性质取左提升性质即可得到相应的平淡态射(Anydone Morphism).\\
+此外,还有 Cartesian 纤维化以及 coCartesian 纤维化两种纤维化态射,我们将在正文中提到.
+\begin{remark}
+    按照模型范畴的说法,我们应该称各类 Kan 纤维化为纤维化,而对应的平淡态射为余纤维化.但是在$\infty$-范畴中,我们遵循Lurie的叫法.
+\end{remark}
+若$q: X \to S$是单纯集之间的态射,则我们有以下含义图:
+\[\begin{tikzcd}
+	& {q\text{ 为平凡 Kan 纤维化}} \\
+	& {q\text{ 为 Kan 纤维化}} \\
+	{q\text{ 为左纤维化}} && {q\text{ 为右纤维化}} \\
+	{q\text{ 为余 Cartesian 纤维化}} && {q\text{ 为 Cartesian 纤维化}} \\
+	& {q\text{ 为同纤维化}} \\
+	& {q\text{ 为内纤维化}}
+	\arrow[Rightarrow, from=1-2, to=2-2]
+	\arrow[Rightarrow, from=2-2, to=3-1]
+	\arrow[Rightarrow, from=2-2, to=3-3]
+	\arrow[Rightarrow, from=3-1, to=4-1]
+	\arrow[Rightarrow, from=3-3, to=4-3]
+	\arrow[Rightarrow, from=4-1, to=5-2]
+	\arrow[Rightarrow, from=4-3, to=5-2]
+	\arrow[Rightarrow, from=5-2, to=6-2]
+\end{tikzcd}\]
+但是一般来说这样的推导关系是不可逆的.\\
+本节的内容将分为几个部分:
+\begin{enumerate}
+    \item 提升性质,这是一切纤维化的根基.
+    \item (平凡)Kan 纤维化及其应用,由于后文中很多纤维化结构实际上与这部分的处理是类似的,我们将会写的比较详细.
+    \item 探索$\infty$-范畴的同伦.
+    \item 构造出$\infty$-范畴上的若干同伦结构.
+    \item 讨论$\infty$-范畴上的Grothendieck构造.
+\end{enumerate}
+事实上这一部分内容其实暗含了很多模型范畴的知识,不过我们一般限制在单纯集上,不做过多延拓,对于模型范畴感兴趣的读者可以看\cite{HTT}附录以及\cite{Hovey}.\\
+本节主体的内容将来自于\cite{Kerodon}.
+\section{提升性质}\label{提升性质}
+首先我们给出一些提升性质的说明,这一块的符号并没有什么统一,本文采取\cite{Land}的符号.
+\begin{definition}
+    设 $\mathcal{C}$ 是范畴,$J\subset\operatorname{Mor}(\mathcal{C})$ 是一类态射.
+    \begin{itemize}
+        \item
+            称 $\mathcal{C}$ 中态射 $p : X \to Y$ 对 $J$ 具有\textbf{右提升性质} (right lifting property,简写作RLP),如果对 $\mathcal{C}$ 中任意实线图表
+            \[
+                \begin{tikzcd}
+                    A \ar[r] \ar[d] & X \ar[d,"p"] \\
+                    B \ar[r] \ar[ur, dashed] & Y \rlap{,}
+                \end{tikzcd}
+            \]
+            其中态射 $A \to B$ 在 $J$ 中,存在虚线箭头使图表交换.所有具有此性质的态射 $p$ 构成的类记为 $\chi_R(J)$.
+        \item
+            称 $\mathcal{C}$ 中态射 $i : A \to B$ 对 $J$具有\textbf{左提升性质} (left lifting property,简写为LLP),如果对 $\mathcal{C}$ 中任意实线图表
+            \[
+                \begin{tikzcd}
+                    A \ar[r] \ar[d,"i"'] & X \ar[d] \\
+                    B \ar[r] \ar[ur, dashed] & Y \rlap{,}
+                \end{tikzcd}
+            \]
+            其中态射 $X \to Y$ 在 $J$ 中,存在虚线箭头使图表交换.所有具有此性质的态射 $i$ 构成的类记为 $\chi_L(J)$.
+    \end{itemize}
+    此外,记$\chi(J)=\chi_L(\chi_R(J))$,它表示这样一类态射,它们对于关于$J$具有右提升性质的态射是具有左提升性质的.
+\end{definition}
+不难证明$\chi_R\chi(J) = \chi_R(J)$.
+\begin{remark}
+    右/左提升性质在有些资料(比如\cite{Kerodon})中也叫右/左弱正交.
+\end{remark}
+如同代数几何一般,我们希望具有右/左提升性质的态射足够好,此处足够好的定义就是在推出/拉回之下稳定,当然,由于我们比较关心余极限,因此只考虑推出的情况,拉回可以直接对偶地得到.
+\begin{definition}
+    令$\mathcal{C}$为推出均存在的范畴,令$S$为$\mathcal{C}$中一些态射,若每个$\mathcal{C}$中的推出图表
+    \[\begin{tikzcd}
+	A & {A'} \\
+	B & {B'}
+	\arrow[from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["{f'}", from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    都有若$f\in S$则$f'\in S$的性质,则称$\mathcal{C}$在推出下是稳定的.
+\end{definition}
+当然这一条对于右提升/拉回情况是很有用的.
+\begin{proposition}\label{命题:推出下稳定}
+    若$\mathcal{C}$为具有推出的范畴, $T$为$\mathcal{C}$中的一些态射,令$S = \chi_L(T)$,则$S$在推出下是稳定的.
+\end{proposition}
+\begin{proof}
+    先给出一个如下图左侧所示的推出图表
+    \[\begin{tikzcd}
+	A & {A'} && {A'} & X \\
+	B & {B'} && {B'} & Y
+	\arrow["s", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["{f'}", from=1-2, to=2-2]
+	\arrow["u", from=1-4, to=1-5]
+	\arrow["{f'}"', from=1-4, to=2-4]
+	\arrow["g", from=1-5, to=2-5]
+	\arrow["t"', from=2-1, to=2-2]
+	\arrow[dashed, from=2-4, to=1-5]
+	\arrow["v"', from=2-4, to=2-5]
+    \end{tikzcd}\]
+    其中$f\in S$.只需要证明$f'\in S$即可,由于$S = \chi_L(T)$,因此要做的不过是验证一个左提升性质,对于任意$g\in T$且$g:X \to Y$,需要证明右侧图表中对角的虚线是存在的,不妨把上图拼到一起得到
+    \[\begin{tikzcd}
+	A & X \\
+	B & Y
+	\arrow["{u\circ s}", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["g", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow["{v\circ t}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    而$f\in S = \chi_L(T)$因此存在提升$B \to X$,而后由于上图左侧为推出,因此根据泛性质得到存在提升$B' \to X$,即$f'\in S$.
+\end{proof}
+不难类似得到$\chi_R(T)$关于拉回是稳定的.\\
+接下来我们讨论收缩核,这一概念来自于代数拓扑的收缩核.
+\begin{definition}[收缩核]
+    令$\mathcal{C}$, $X,Y\in \Obj (\mathcal{C})$为一对对象,若存在态射$i : X\to Y$以及$r: Y\to X$使得$r\circ i = \identity_{X}$,则称$X$为$Y$的收缩核.
+\end{definition}
+当然,我们可以对于两个态射讨论收缩概念,这需要我们稍微转变观点,将目光放在$\Fct([1],\mathcal{C})$上.
+\begin{definition}[态射作为收缩核]
+    令$\mathcal{C}$为范畴.考虑态射$f: X \to Y$以及$f' : X' \to Y'$,现在将$f$与$f'$视为$\Fct([1],\mathcal{C})$中的对象,若$f$为$f'$在$\Fct([1],\mathcal{C})$中为收缩核,则称$f$为$f'$的收缩核.显式的看,即存在交换图表
+    \[\begin{tikzcd}
+	X & {X'} & X \\
+	Y & {Y'} & Y
+	\arrow["i", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["r", from=1-2, to=1-3]
+	\arrow["{f'}"', from=1-2, to=2-2]
+	\arrow["f", from=1-3, to=2-3]
+	\arrow["{\bar{i}}"', from=2-1, to=2-2]
+	\arrow["{\bar{r}}"', from=2-2, to=2-3]
+    \end{tikzcd}\]
+    其中$r\circ i = \identity_{X}$且$\bar{r}\circ \bar{i} = \identity_{Y}$.
+\end{definition}
+结合前文关于在推出(拉回)下稳定这一定义,自然可以推导出在收缩核下稳定这一概念,这无非是说若$f$为$f'$的收缩核而$f'\in S$则$f\in S$.接下来我们把它与左右提升结合起来.
+\begin{proposition}\label{命题:左提升收缩核稳定}
+    令$\mathcal{C}$为范畴, $T$为$\mathcal{C}$中的一些态射,而$S = \chi_L(T)$.则$S$在收缩核下是稳定的.
+\end{proposition}
+\begin{proof}
+    取$f'\in S$,考虑如下图左侧所示的收缩核
+    \[\begin{tikzcd}
+	X & {X'} & X && X & A \\
+	Y & {Y'} & Y && Y & B
+	\arrow["i", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["r", from=1-2, to=1-3]
+	\arrow["{f'}"', from=1-2, to=2-2]
+	\arrow["f", from=1-3, to=2-3]
+	\arrow["u", from=1-5, to=1-6]
+	\arrow["f"', from=1-5, to=2-5]
+	\arrow["g", from=1-6, to=2-6]
+	\arrow["{\bar{i}}"', from=2-1, to=2-2]
+	\arrow["{\bar{r}}"', from=2-2, to=2-3]
+	\arrow["h", dashed, from=2-5, to=1-6]
+	\arrow["v"', from=2-5, to=2-6]
+    \end{tikzcd}\]
+    其中$r\circ i = \identity_{X}$且$\bar{r}\circ \bar{i} = \identity_{Y}$.需要说明$f\in S = \chi_L(T)$,这只需要验证对于任意的$g\in T$,上图右侧的交换图表中虚线箭头所表示的提升确实存在即可,和命题\ref{命题:推出下稳定}中证明一样,把上图左侧和右侧结合起来得到
+    \[\begin{tikzcd}
+	{X'} & A \\
+	{Y'} & B
+	\arrow["{u\circ r}", from=1-1, to=1-2]
+	\arrow["{f'}"', from=1-1, to=2-1]
+	\arrow["g", from=1-2, to=2-2]
+	\arrow["{h'}"{description}, dashed, from=2-1, to=1-2]
+	\arrow["{v\circ \bar{r}}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    由$f'\in S = \chi_L(T)$保证了提升的存在性,而后由于$u \circ r \circ i = u$,$v\circ \bar{r} \circ \bar{i} = v$因此取$h = \bar{h}\circ \bar{i}$即可.
+\end{proof}
+右提升的情况自然类似可证.\\
+接下来的概念(超限复合)需要一点点序数以及超限归纳法的知识,\parencite[$\S$1.2-1.3]{李文威卷一}中的内容应当是完全足够的,或者读者也可以看\parencite[\href{https://kerodon.net/tag/03PV}{03PV}]{Kerodon}.\\
+对于每个序数$\alpha$,令$\cate{Ord}_{\leq \alpha} = \{\beta : \beta \leq \alpha\}$为小于等于$\alpha$的全体序数构成的全序集.
+\begin{definition}[超限复合下稳定]
+    取$\mathcal{C}$为范畴, $S$为$\mathcal{C}$中的一些态射.考虑态射$f\in \Mor(\mathcal{C})$,若存在序数$\alpha$以及函子$F: \cate{Ord}_{\leq \alpha} \to \mathcal{C}$,给定一些对象$\{C_{\beta}\}_{\beta \leq \alpha}$以及态射$\{f_{\gamma,\beta}:C_{\beta}\to C_{\gamma}\}_{\beta \leq \gamma}$满足以下条件
+    \begin{enumerate}
+        \item 对于任意非零极限序数 $\lambda \leq \alpha$,函子$F$使得$C_{\lambda}$可被表为图表$\left(\{C_{\beta}\}_{\beta \leq \lambda}, \{f_{\gamma,\beta}\}_{\beta \leq \gamma \leq \lambda}\right)$的余极限.
+        \item 对于任意序数$\beta < \alpha$,态射$f_{\beta+1,\beta}$在$S$内.
+        \item 态射$f$等同于$f_{\alpha,0} : C_0 \to C_{\alpha}$.
+    \end{enumerate}
+    此时称$f$在$S$的超限复合下是稳定的.若对于每个在$S$的超限复合下稳定的$f$都有$f\in S$则称$S$在超限复合下是稳定的.
+\end{definition}
+之后是老生常谈的讨论左右提升性质与超限复合,这次的证明与前文稍显复杂,但是核心还是一致的.
+\begin{proposition}
+    令$\mathcal{C}$为范畴, $T$为$\mathcal{C}$中的一些态射,且$S = \chi_L(T)$,则$S$在超限复合下是稳定的.
+\end{proposition}
+\begin{proof}
+    首先给定序数$\alpha$,并且假设具有函子$F : \cate{Ord}_{\leq \alpha}\to \mathcal{C}$,它由以下满足条件1.的有序对
+    \[
+        \left( \{C_{\beta}\}_{\beta \leq \alpha}, \{f_{\gamma,\beta}\}_{\beta \leq \gamma \leq \alpha} \right)
+    \]
+    给出.假设每个$f_{\beta+1,\beta}$都在$S$内.我们现在希望说明$f = f_{\alpha,0}$在$S$内.这需要验证
+    \[\begin{tikzcd}
+	{C_0} & X \\
+	{C_{\alpha}} & Y
+	\arrow["u", from=1-1, to=1-2]
+	\arrow["{f_{\alpha,0}}"', from=1-1, to=2-1]
+	\arrow["g", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow["v"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    中提升的存在性.接下来利用$f_{\beta+1,\beta}$都在$S$内去证明这一点,利用超限归纳的原理,从$u$开始构造一族态射$\left\{ u_{\beta}: C_{\beta} \to X \right\}_{\beta \leq \alpha}$,它满足与$v$和$g$的交换性(下图左侧)$g\circ u_{\beta} = v\circ f_{\alpha,\beta}$以及$u_{\beta}$自身归纳的相容性(下图右侧)$u_{\beta}=u_{\gamma}\circ f_{\gamma,\beta}$用图表表示出来就是
+    \[\begin{tikzcd}
+	{C_{\beta}} & X & {C_{\beta}} & X \\
+	{C_{\alpha}} & Y & {C_{\gamma}}
+	\arrow["{u_{\beta}}", from=1-1, to=1-2]
+	\arrow["{f_{\alpha,\beta}}"', from=1-1, to=2-1]
+	\arrow["g", from=1-2, to=2-2]
+	\arrow["{u_{\beta}}", from=1-3, to=1-4]
+	\arrow["{f_{\gamma,\beta}}"', from=1-3, to=2-3]
+	\arrow["v"', from=2-1, to=2-2]
+	\arrow["{u_{\gamma}}"', from=2-3, to=1-4]
+    \end{tikzcd}\]
+    接下来显式的来构造它,当然,我们需要从$0$开始,然后处理后继以及极限序数的情况
+    \begin{enumerate}
+        \item[$\triangleright$ \textbf{第零项}] $u_0 = u$给定.
+        \item[$\triangleright$ \textbf{后继项}] 设$\gamma = \beta +1$为后继序数.此时$u_{\gamma}$由以下提升给出(由于$f_{\beta+1,\beta}\in S$保证了提升存在)
+        \[\begin{tikzcd}
+	    {C_{\beta}} & X \\
+	    {C_{\beta+1}} & Y
+	    \arrow["{u_{\beta}}", from=1-1, to=1-2]
+	    \arrow["{f_{\beta+1,\beta}}"', from=1-1, to=2-1]
+	    \arrow["g", from=1-2, to=2-2]
+	    \arrow["{u_{\beta+1}}"{description}, dashed, from=2-1, to=1-2]
+	    \arrow["{v\circ f_{\alpha,\beta+1}}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        \item[$\triangleright$ \textbf{极限项}] 设$\gamma$为非零极限序数,则根据定义$C_{\gamma} = \underset{\beta \leq \gamma}{\indlim} C_{\beta}$,由$\{u_{\beta}:C_{\beta} \to X\}_{\beta \leq \gamma}$通过泛性质给出$u_{\gamma}: C_{\gamma}\to X$.这显然满足前文所述的交换性.
+    \end{enumerate}
+    因此得到提升$u_{\alpha}:C_{\alpha}\to X$.
+\end{proof}
+根据前文的讨论,我们可以介绍以下概念.
+\begin{definition}[弱饱和]
+    令$\mathcal{C}$为范畴且具有小余极限,令$S$为$\mathcal{C}$中一类态射,若$S$
+    \begin{itemize}
+        \item 在推出下稳定.
+        \item 在收缩核下稳定.
+        \item 在超限复合下稳定.
+    \end{itemize}
+    则称$S$是弱饱和的.
+\end{definition}
+
+接下来讨论弱饱和的若干性质
+\begin{proposition}
+    设$\mathcal{C}$为范畴且具有小余极限, $T$为$\mathcal{C}$中一些态射,令$S = \chi_L(T)$则$S$是弱饱和的.
+\end{proposition}
+\begin{proof}
+    前文已经证明.
+\end{proof}
+\begin{remark}
+    令$\mathcal{C}$为范畴, $S_0$为$\mathcal{C}$中的一类态射.则存在一个包含$S_0$的最小的弱饱和类(类似于闭包定义,取$S = \bigcap_{S_0 \subset H,H\text{弱饱和}}H$)称$S$为由$S_0$所生成的弱饱和态射类.因此,若$S_0$对于$T$具有左提升性质,则$S$对于$T$也具有左提升性质.
+\end{remark}
+\begin{proposition}
+    令$\mathcal{C}$为范畴且具有小余极限, $S$为$\mathcal{C}$中的弱饱和态射类,则
+    \begin{itemize}
+        \item 所有的同构都在$S$中.
+        \item $S$在态射复合下是稳定的,即若$f:X \to Y$与$g : Y \to Z$都在$S$中则$g\circ f$也在$S$中.
+    \end{itemize}
+\end{proposition}
+\begin{proof}    
+    前者为超限复合中$\alpha = 0$的情况,后者为$\alpha = 2$的情况.
+\end{proof}
+\section{平凡 Kan 纤维化}
+接下来我们回到单纯集语境下,在单纯集中,我们自然可以考虑关于$\partial \Delta^n \hookrightarrow \Delta^n$以及$\Lambda_i^n \to \Delta^n$的右提升性质(因为单形是$\Delta^n \to X$),所得到的结果自然是平凡Kan 纤维化和Kan 纤维化,首先来考虑平凡 Kan 纤维化.
+\begin{definition}
+    单纯集之间的态射$q: X \to S$若对于每个$n \geq 0$, $q$对$\partial \Delta^n \hookrightarrow \Delta^n$ 都具有右提升性质,即下图中提升存在
+    \[\begin{tikzcd}
+	{\partial \Delta^n} & X \\
+	{\Delta^n} & S
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow["q", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    则称$q: X \to S$为一个平凡 Kan 纤维化.
+\end{definition}
+\begin{remark}\label{注记:平凡 Kan 纤维化}
+    \begin{itemize}
+    \item 由于右提升性质对于拉回是稳定的,因此若我们有拉回图表
+    \[\begin{tikzcd}
+	{X'} & X \\
+	{S'} & S
+	\arrow[from=1-1, to=1-2]
+	\arrow["{q'}"', from=1-1, to=2-1]
+	\arrow["q", from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    且$q$为平凡 Kan 纤维化则$q'$也为平凡 Kan 纤维化.
+    \item 由平凡 Kan 纤维化构成的类在滤过余极限之下是稳定的(视为$\Fct([1],\cate{sSet})$的全子范畴).
+    \end{itemize}
+\end{remark}
+接下来探索一下它的性质.
+\begin{proposition}\label{命题:单态射类弱饱和}
+    考虑单纯集之间全体单态射构成的类$T$,则:
+    \begin{enumerate}
+        \item $T$是弱饱和的.
+        \item 作为弱饱和态射类, $T$由$\{\partial \Delta^n \hookrightarrow \Delta^n\}$所生成.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item 让我们依照弱饱和的定义来验证$T$确实是弱饱和的
+        \begin{enumerate}
+            \item[在推出下稳定] 设$f: A \to B$是单态射,给定推出图表
+            \[\begin{tikzcd}
+            	A & {A'} \\
+            	B & {B'}
+            	\arrow["g", from=1-1, to=1-2]
+            	\arrow["f"', from=1-1, to=2-1]
+            	\arrow["{f'}", from=1-2, to=2-2]
+            	\arrow["{g'}"', from=2-1, to=2-2]
+            \end{tikzcd}\]
+            由推出下稳定的定义可知需要证明$f'$是单态射.只需要对每个分量考虑即可,因$f$单,因此$f_n : A_n \to B_n$为单射,我们需要说明$f'_n:A'_n \to B'_n$.\\
+            由于图表为推出,因此$B_n' = A_n' \dsqcup{A_n} B_n = A_n' \sqcup B_n /\sim$,其中$\sim$为由以下关系生成的等价关系: $\sigma\in A_n$, $f_n(\sigma)\sim g_n(\sigma)$.\\
+            因此对于$\sigma$ , $\sigma'\in A_n$设$\tau$ , $\tau'\in A_n'$分别为$\sigma$和$\sigma'$的像,则$\tau \simeq \tau'$当且仅当
+            \[
+                \tau = g_n(\sigma) \sim f_n(\sigma) = f_n(\sigma') \sim g_n(\sigma') = \tau'
+            \]
+            由于$f_n$为集合论单射,因此$\tau \sim \tau'$当且仅当$\tau = \tau'$,因此从$A'_n$到$B'_n$的典范态射$f'_n$为单射.
+            \item[在收缩核下稳定] 此处证明一个更广的结论:$\mathcal{C}$为范畴而$T$为$\mathcal{C}$中全体单态射构成的类,则$T$在收缩核下稳定.考虑$f' : A' \to B'$为单态射,设$f$为$f'$的收缩核,接下来证明$f$为单态射.首先给出收缩核
+            \[\begin{tikzcd}
+	        A & {A'} & A \\
+	        B & {B'} & B
+	        \arrow["i", from=1-1, to=1-2]
+	        \arrow["f"', from=1-1, to=2-1]
+	        \arrow["r", from=1-2, to=1-3]
+	        \arrow["{f'}", from=1-2, to=2-2]
+	        \arrow["f", from=1-3, to=2-3]
+	        \arrow["{\bar{i}}", from=2-1, to=2-2]
+	        \arrow["{\bar{r}}", from=2-2, to=2-3]
+            \end{tikzcd}\]
+            其中$r\circ i = \identity_A$, $\bar{r}\circ \bar{i} = \identity_B$.对于任意的$g,h : T \to A$,若有$f\circ g = f\circ h$,则$\bar{i} \circ f \circ g = \bar{i}\circ f \circ h$,这相当于说
+            \[
+                f'\circ i \circ g = f'\circ i \circ h
+            \]
+            由$f'$的单性立知$i\circ g = i\circ h$从而$g = r\circ i \circ g =r\circ i \circ h = h$,即$f$单,因此$f\in T$.
+            \item[在超限复合下稳定] 给定序数$\alpha$以及函子$S: \cate{Ord}_{\leq \alpha} \to \cate{sSet}$,它给出一族单纯集$\{S(\beta)\}_{\beta \leq \alpha}$以及转移映射$f_{\gamma,\beta}: S(\beta) \to S(\gamma)$.假设对于$\beta < \alpha$有$f_{\beta+1,\beta}$为单态射,并且对于全体非零序数$\lambda \leq \alpha$,其诱导的典范态射$\underset{\beta <\alpha}{\indlim} S(\beta) \to S(\lambda)$为同构.现在说明$f_{\alpha,0}: S(0) \to S(\alpha)$为单态射.\\
+            不难发现只需要对于$\gamma\leq \alpha$进行超限归纳说明$f_{\gamma,0}$总是单态射即可,设对于任意的$\beta < \gamma$都有$f_{\beta,0}:S(0) \to S(\beta)$为单态射.
+            \begin{enumerate}
+                \item[$\triangleright$\textbf{第零项}] 对于$\gamma = 0$时,有$f_{\gamma,0} = \identity_{S(0)}$为同构.
+                \item[$\triangleright$\textbf{后继项}] 若$\gamma = \beta +1$为后继序数,则考虑复合
+                \[
+                    S(0) \xrightarrow{f_{\beta,0}} S(\beta) \xrightarrow{f_{\beta+1,\beta}} S(\gamma)
+                \]
+                由于单态射的复合仍为单态射,可知成立.
+                \item[$\triangleright$\textbf{极限项}] 由假设可知$S(\gamma) \simeq \underset{\beta < \gamma}{\indlim} S(\beta)$并且$\cate{sSet}$中单态射的归纳余极限仍为单态射\footnote{回忆到滤过余极限与有限极限交换,因此考虑单态射时$\identity_X$作为$f:X\to Y$的拉回即可.}可知$f_{0,\gamma}$为单态射.
+            \end{enumerate}
+        \end{enumerate}
+        \item 接下来说明$T$由$\{\partial \Delta^n \to \Delta\}$生成,设$T'$为$\cate{sSet}$中另一个包含$\{\partial \Delta^n \to \Delta\}$的弱饱和类,只需要说明任意单态射$i : A \to B$都在$T'$内即可.对于每个$k \geq -1$,令$B(k) \subset B$为骨架$\sk_k(B)$与$\Image i$的并集所构成的子单纯集,则嵌入态射$i$实际上可以写为
+        \[
+            A\simeq B(-1)\hookrightarrow B(0) \hookrightarrow B(1) \hookrightarrow \cdots
+        \]
+        由于$T'$为弱饱和态射类,因此在超限复合下稳定,因此$i \in T'$等价于说对于任意$k\geq 0$都有$B(k-1) \hookrightarrow B(k)$在$T'$中,回忆到命题\ref{命题:骨架构造}中提到的推出图表
+        \[\begin{tikzcd}
+    	{\bigsqcup_{\sigma\in Q}\partial \Delta^k} & {\bigsqcup_{\sigma\in Q}\Delta^k} \\
+	    {B(k-1)} & {B(k)}
+	    \arrow[from=1-1, to=1-2]
+	    \arrow[from=1-1, to=2-1]
+	    \arrow[from=1-2, to=2-2]
+	    \arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
+        其中$Q$表示$B$中全体非退化$k$-单形所构成的集合,它并不属于$i$的像.因$T'$在推出下是稳定的,问题约化为嵌入态射
+        \[
+        j:\bigsqcup_{q\in Q}\partial \Delta^k \hookrightarrow \bigsqcup_{q\in Q} \Delta^k
+        \]
+        属于$T'$,由良序定理可知$Q$可以被赋予良序,因此$j$也可以被写为超限复合
+        \[
+            j_{\sigma}: \left( \bigsqcup_{\tau \geq \sigma} \partial \Delta^k\right)\sqcup \left( \bigsqcup_{\tau <\sigma} \Delta^k\right) \hookrightarrow \left( \bigsqcup_{\tau >\sigma} \partial \Delta^k\right)\sqcup \left( \bigsqcup_{\tau \leq \sigma} \Delta^k\right)
+        \]
+        其中每一个都是包含嵌入$\partial \Delta^k \hookrightarrow \Delta^k$的推出.
+        \end{enumerate}
+\end{proof}
+\begin{proposition}\label{命题:单态射提升性质与平凡 Kan 纤维化}
+    取$p :X \to S$为单纯集之间的态射.则以下条件等价:
+    \begin{enumerate}
+        \item $p$是平凡 Kan 纤维化.
+        \item 对于每个单纯集之间的单态射$A \hookrightarrow B$, $p$都具有右提升性质.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    一个方向是显然的,现在证明另一个方向.令$p: X \to S$为平凡 Kan 纤维化且$S = \chi_L(\{p\})$,不难发现$\partial \Delta^n \hookrightarrow \Delta^n$在$S$中,并且$S$是弱饱和的.而后可以推知单纯集之间的单射$i : A \hookrightarrow B$都在$S$中.
+\end{proof}
+\begin{corollary}\label{推论:平凡 Kan 纤维化有截面}
+    令$p : X \to S$为单纯集之间的平凡 Kan 纤维化.则:
+    \begin{enumerate}
+        \item 态射$p$具有截面,即存在$s: S \to X$使得$p\circ s = \identity_S$.
+        \item 令$s$为$p$的任意截面.则复合$s\circ p : X \to X$逐纤维的同伦于$\identity_X$,即存在一个与到$S$的投影兼容的单纯集之间的态射$h: \Delta^1 \times X \to X$,使得$h\mid_{\{0\}\times X}= s\circ p$且$h\mid_{\{1\}\times X}=\identity_X$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    \begin{enumerate}
+        \item 只需要取$\identity_S :S\to S$,而后考虑提升问题
+        \[\begin{tikzcd}
+	    \varnothing & X \\
+	    S & S
+	    \arrow[from=1-1, to=1-2]
+	    \arrow[hook, from=1-1, to=2-1]
+	    \arrow["p"{description}, from=1-2, to=2-2]
+	    \arrow["s"{description}, dashed, from=2-1, to=1-2]
+	    \arrow["{\identity_S}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        其中$\varnothing$表示始对象,当然它其实就是空集,而后由命题\ref{命题:单态射提升性质与平凡 Kan 纤维化}可以得到提升的存在性,记其为$s$而后由交换性验证其确实为截面.
+        \item 给定任意截面$s$,我们可以考虑以下提升问题
+        \[\begin{tikzcd}
+	    {\partial \Delta^1 \times X} & X \\
+	    {\Delta^1\times X} & S
+	    \arrow["{(s\circ p ,\identity_X)}", from=1-1, to=1-2]
+	    \arrow[hook, from=1-1, to=2-1]
+	    \arrow["p"{description}, from=1-2, to=2-2]
+	    \arrow["h"{description}, dashed, from=2-1, to=1-2]
+	    \arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
+        不难发现左侧还是嵌入,因此得到提升的存在性,再由图表的交换性给出逐纤维的同伦.
+    \end{enumerate}
+\end{proof}
+接下来证明一个非常常见的引理.在此之前,来认识两个构造.
+\begin{enumerate}
+    \item[构造 1.] 令$f: X \to Y$以及$i : A \to B$为单纯集之间的态射,则存在交换图表
+    \[\begin{tikzcd}
+	{\Fct(B,X) } & {\Fct(A,X)} \\
+	{\Fct(B,Y)} & {\Fct(A,Y)}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    以及典范态射
+    \[
+    [f,i]:\Fct(B,X) \to \Fct(A,X) \dtimes{\Fct(A,Y)} \Fct(B,Y)
+    \]
+    \item[构造 2.] 对偶地,对于态射$i: A\to B$以及$g : S \to T$,有交换图表
+    \[\begin{tikzcd}
+	{A\times S} & {A\times T} \\
+	{B\times S} & {B\times T}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    以及典范态射
+    \[
+    \left<i,g\right>:(A\times T)\dsqcup{A \times S} (B \times S) \to B \times T
+    \]
+\end{enumerate}
+\begin{lemma}\label{引理:展开定义}
+    以下两个提升问题是等价的
+    \[\begin{tikzcd}
+	S & {\Fct(B,X)} \\
+	T & {\Fct(A,X)\dtimes{\Fct(A,Y)}\Fct(B,Y)}
+	\arrow[from=1-1, to=1-2]
+	\arrow["g"', from=1-1, to=2-1]
+	\arrow["{[f,i]}", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\quad \begin{tikzcd}
+	{(A\times T)\dsqcup{A \times S} (B\times S)} & X \\
+	{B\times T} & Y
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\left<i,g\right>}"', from=1-1, to=2-1]
+	\arrow["f", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+\end{lemma}
+\begin{proof}
+    由定理\ref{定理:sSet是Cartesian闭的}可知$\cate{sSet}$是Cartesian闭的,或者说$\Fct(A,-)$是$A\times -$的右伴随.而后由前文构造以及拉回推出泛性质即可验证.
+\end{proof}
+\begin{corollary}\label{推论:态射空间纤维积平凡Kan纤维化}
+    令$p:X\to S$为单纯集之间的平凡 Kan 纤维化且令$i :A \to B$为单纯集之间的单态射.则典范态射
+    \[
+        \Fct(B,X) \to \Fct(B,S) \dtimes{\Fct(A,S)} \Fct(A,X)
+    \]
+    也是平凡 Kan 纤维化.
+\end{corollary}
+\begin{proof}
+    相当于说以下图表
+    \[\begin{tikzcd}
+	{\partial \Delta^n} & {\Fct(B,X)} \\
+	{\Delta^n} & {\Fct(B,S) \dtimes{\Fct(A,S)} \Fct(A,X)}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    提升的存在性,使用引理\ref{引理:展开定义}发现这相当于在说
+    \[\begin{tikzcd}
+	{(\partial \Delta^n \times B)\dsqcup{\partial \Delta^n \times A}(\Delta^n \times A)} & X \\
+	{\Delta^n \times B} & S
+	\arrow[from=1-1, to=1-2]
+	\arrow["i", from=1-1, to=2-1]
+	\arrow["p", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    这一图表的提升性质,由于$i$是单态射且$p$为平凡 Kan 纤维化直接推出成立.
+\end{proof}
+\begin{corollary}\label{推论:前推为平凡 Kan 纤维化}
+    令$p: X \to S$为单纯集之间的平凡 Kan 纤维化,则对于任意单纯集$B$,前推$\Fct(B,X)\to \Fct(B,S)$是平凡 Kan 纤维化.
+\end{corollary}
+\begin{proof}
+    在上一推论中取$A = \varnothing$即可.
+\end{proof}
+\begin{definition}[可缩 Kan 复形]
+    令$X$为单纯集.若投影态射$X \to \Delta^0$是平凡 Kan 纤维化,或者说每个态射$\sigma_0 : \partial \Delta^n \to X$都可以被延拓为$X$上的$n$-单形,则称$X$是可缩 Kan 复形.
+\end{definition}
+\begin{example}
+    令$X$为拓扑空间,则单纯集$\Sing(X)$为可缩 Kan 复形当且仅当拓扑空间 $X$ 是弱可缩的,即对任意连续映射$\sigma_0 : \bbS^{n-1} \to X$都是零伦的(此处$\bbS^{n-1}\simeq |\partial \Delta^n|$为 n-1 维球面因此此时根据基础的拓扑学知识可以知道$\sigma_0$是零伦的当且仅当它可以被延拓到其锥$C\bbS^{n-1} = \bbD^n \simeq |\Delta^n|$上).特别地,若拓扑空间$X$是可缩的,则单纯集$\Sing(X)$也是可缩 Kan 复形.
+\end{example}
+\begin{remark}\label{注记:平凡 Kan 纤维化与可缩 Kan 复形}
+    令$p: X \to S$为平凡 Kan 纤维化,则对于每个顶点$s \in S$,纤维$X\dtimes{S} \{s\}$为可缩 Kan 复形.即平凡 Kan 纤维化实际上对应纤维是可缩 Kan 复形.
+\end{remark}
+在命题\ref{命题:单态射提升性质与平凡 Kan 纤维化}中令$S = \Delta^0$即可得到以下推论:
+\begin{corollary}
+    \begin{enumerate}
+        \item $X$为可缩 Kan 复形.
+        \item 每个单纯集之间的单态射$i : A \hookrightarrow B$以及单纯集之间的态射$f_0 : A\to B$都存在$f: B \to X$使得$f_0 = f \circ i$.
+    \end{enumerate}
+\end{corollary}
+\begin{proposition}
+    令$p: X \to S$为单纯集之间的平凡 Kan 纤维化.则:
+    \begin{enumerate}
+        \item 若 $X$ 为 Kan 复形,则 $S$ 为 Kan 复形.
+        \item 若 $X$ 是可缩 Kan 复形,则 $Y$ 是可缩 Kan 复形.
+        \item 若 $X$ 是 $\infty$-范畴,则 $Y$ 是 $\infty$-范畴.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    证明1.即可,不难发现2. 和 3. 都类似可证.假设给定$0\leq i \leq n$以及$n \in \Z_{\geq 1}$;设$X$为 Kan 复形,接下来我们证明 $S$ 也是 Kan 复形,相当于说对于任意$\sigma_0:\Lambda_i^n \to S$都可以提升为$n$-单形,考虑以下提升问题
+    \[\begin{tikzcd}
+	\varnothing & X \\
+	{\Lambda_i^n} & S
+	\arrow[from=1-1, to=1-2]
+	\arrow[hook, from=1-1, to=2-1]
+	\arrow["p", from=1-2, to=2-2]
+	\arrow["{\tau_0}"{description}, dashed, from=2-1, to=1-2]
+	\arrow["{\sigma_0}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    由命题\ref{命题:单态射提升性质与平凡 Kan 纤维化}可以得知提升的存在性,即任意$\sigma_0 : \Lambda_i^n \to S$都可以写为$\tau_0 \circ p$的形式,其中$\tau_0 : \Lambda_i^n \to X$,而由于$X$为 Kan 复形,因此可以得到$n$-单形$\tau$,得到$\sigma = p\circ\tau$为$S$的$n$-单形,并且有$\sigma\mid_{\Lambda_i^n}=\sigma_0$.
+\end{proof}
+\subsection{平凡 Kan 纤维化的应用}\label{平凡 Kan 纤维化的应用}
+平凡 Kan 纤维化可以用来证明一些有趣的事情,比如在$S$为单纯集,$\mathcal{D}$为$\infty$-范畴时$\Fct(S,\mathcal{D})$为$\infty$-范畴.此外,在$\infty$-范畴的定义中,我们知道两个可复合的态射$f: X \to Y$与$g : Y \to Z$,$(g,\bullet,f)$(此处符号如推论\ref{推论:尖角变体}所示)决定了一个态射$\Lambda_1^2 \to \mathcal{C}$,可以延拓得到$2$-单形$\sigma$,它们的复合定义为$g\circ f = d_2^1(\sigma)$,但是$\sigma$与$g\circ f$其实都不是唯一确定的,它们只是在同伦的意义下被确定,本小节将说明它们实际上由一个可缩的``参数''空间所唯一决定.
+\begin{theorem}[Joyal]\label{定理:Joyal无穷范畴平凡 Kan 纤维化}
+    令$S$为单纯集,则以下条件等价:
+    \begin{itemize}
+        \item $S$为$\infty$-范畴.
+        \item 对于尖角嵌入$\Lambda_1^2 \to \Delta^2$,其诱导的态射
+        \[
+            \Fct(\Delta^2 , S)\to \Fct(\Lambda_1^2 ,S)
+        \]
+        为平凡 Kan 纤维化
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    见\parencite[\href{https://kerodon.net/tag/0079}{0079}]{Kerodon}.
+\end{proof}
+通过这一定理,可以说明
+\begin{corollary}
+    令$f: X \to Y$, $g : Y \to Z$为$\infty$-范畴$\mathcal{C}$中可复合的一对态射,则$(g,\bullet,f)$决定了单纯集之间的态射$\Lambda_1^2 \to \mathcal{C}$.则纤维积
+    \[
+    \Fct(\Delta^2,\mathcal{C})\dtimes{\Fct(\Lambda_1^2,\mathcal{C})}\{(g,\bullet,f)\}
+    \]
+    为一个可缩 Kan 复形.
+\end{corollary}
+\begin{proof}
+    不难发现$\{(g,\bullet,f)\}$为$\Fct(\Lambda_1^2,\mathcal{C})$中的一个单点子集,而由定理\ref{定理:Joyal无穷范畴平凡 Kan 纤维化}以及注记\ref{注记:平凡 Kan 纤维化与可缩 Kan 复形}可知推论成立.
+\end{proof}
+\begin{remark}
+    事实上,可以认为
+    \[
+        Z = \Fct(\Delta^2,\mathcal{C})\dtimes{\Fct(\Lambda_1^2,\mathcal{C})}\{(g,\bullet,f)\}
+    \]
+    是一个由全体满足$d_2^0(\sigma) = g$以及$d_2^2(\sigma) = f$的$2$-单形$\sigma$所构成的``参数空间''.
+\end{remark}
+接下来说明从单纯集$S$到$\infty$-范畴$\mathcal{D}$的映射空间$\Fct(S,\mathcal{D})$是$\infty$-范畴.
+\begin{theorem}
+    令$S$为单纯集, $\mathcal{D}$为$\infty$-范畴,则$\Fct(S,\mathcal{D})$为$\infty$-范畴.
+\end{theorem}
+\begin{proof}
+    令$S$为单纯集, $\mathcal{D}$为$\infty$-范畴.接下来说明$\Fct(S,\mathcal{D})$为$\infty$-范畴.由\ref{定理:Joyal无穷范畴平凡 Kan 纤维化}可知只需要证明
+    \[
+        \operatorname{res}: \Fct(\Lambda_1^2,\Fct(S,\mathcal{D}))\to \Fct(\Delta^2,\Fct(S,\mathcal{D}))
+    \]
+    为平凡 Kan 纤维化.注意到可以将其转化为
+    \[
+        \Fct(S,\Fct(\Delta^2,\mathcal{D})) \to \Fct(S,\Fct(\Lambda_1^2,\mathcal{D}))
+    \]
+    由于$\mathcal{D}$为$\infty$-范畴,因此根据定理\ref{定理:Joyal无穷范畴平凡 Kan 纤维化}可知$\Fct(\Delta^2,\mathcal{D})\to\Fct(\Lambda_1^2,\mathcal{D})$为平凡 Kan 纤维化,而后依据推论\ref{推论:前推为平凡 Kan 纤维化}可知上式为平凡 Kan 纤维化.
+\end{proof}
+至此,我们可以定义出$\infty$-范畴所构成的$\infty$-范畴$\Cat_{\infty}$,首先回顾我们曾提到过的事实\ref{事实:群胚}以及定理\ref{定理:同伦脉为无穷范畴},我们就很自然的得到了$\Cat_{\infty}$.
+\begin{definition}[$\Cat_{\infty}$]
+    单纯范畴$\Cat^{\Delta}_{\infty}$定义如下:
+    \begin{enumerate}
+        \item $\Cat^{\Delta}_{\infty}$中对象即为所有的(小)$\infty$-范畴.
+        \item 对于$\infty$-范畴$\mathcal{C}$与$\mathcal{D}$,定义$\Hom_{\Cat_{\infty}^{\Delta}}(\mathcal{C},\mathcal{D}) = \Fct(\mathcal{C},\mathcal{D})^{\simeq}$(回顾定义\ref{定义:极大子无穷群胚}).
+    \end{enumerate}
+    令$\Cat_{\infty} = \nerve^{\operatorname{hc}} \Cat_{\infty}^{\Delta}$.称其为$\infty$-范畴所构成的$\infty$-范畴.
+\end{definition}
+\begin{remark}
+    由前文可知$\Fct(\mathcal{C},\mathcal{D})$确实为$\infty$-范畴.此外一方面,由事实\ref{事实:群胚}可知$\infty$-群胚充当$\infty$-范畴理论中``集合''的角色,另一方面由定理\ref{定理:同伦脉为无穷范畴}可知需要局部 Kan 条件,因此可知$\Cat_{\infty}^{\Delta}$定义的自然性.
+\end{remark}
+\section{Kan 纤维化}
+\begin{definition}[Kan 纤维化]
+    单纯集之间的映射$q:X \to S$若关于所有尖角的包含具有右提升性质,即下图中提升存在
+    \[\begin{tikzcd}
+	{\Lambda_i^n} & X \\
+	{\Delta^n} & S
+	\arrow["{\sigma_0}", from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow["q", from=1-2, to=2-2]
+	\arrow["\sigma", dashed, from=2-1, to=1-2]
+	\arrow["{\bar{\sigma}}", from=2-1, to=2-2]
+    \end{tikzcd}\]
+    则称$q:X\to S$为一个 Kan 纤维化.
+\end{definition}
+\begin{example}\label{例:Kan 纤维化}
+    以下为一些可以简单验证的例子:
+    \begin{itemize}
+        \item 令$X$为单纯集,则投影态射$X\to \Delta^0$为 Kan 纤维化当且仅当$X$为 Kan 复形.
+        \item 任意单纯集的同构均为 Kan 纤维化.
+        \item 令$S$为单纯集且$S' \subset S$为单纯子集.则嵌入态射$S' \hookrightarrow S$为 Kan 纤维化当且仅当 $S'$为 $S$的直和项,即$S = S'\sqcup S''$.
+    \end{itemize}
+\end{example}
+\begin{remark}
+    以下是一些完全可以当做习题的简单注记,就不进行证明了
+    \begin{itemize}
+    \item 所有 Kan 纤维化构成的类在收缩核下是稳定的,这是命题\ref{命题:左提升收缩核稳定}的类似情况,留作习题.
+    \item 所有 Kan 纤维化构成的类在拉回下是稳定的,这是命题\ref{命题:推出下稳定}的类似情况,留作习题.
+    \item 令$f: X \to S$为单纯集之间的态射.假设对于任意单形$\sigma: \Delta^n \to S$都有投影态射$\Delta^n \dtimes{S} X\to \Delta^n$是 Kan 纤维化,则 $f$ 也是 Kan 纤维化.因此给定拉回图表
+    \[\begin{tikzcd}
+	{X'} & X \\
+	{S'} & S
+	\arrow[from=1-1, to=1-2]
+	\arrow["{f'}", from=1-1, to=2-1]
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["g"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    若$g$是\textbf{满态射}而$f'$为 Kan 纤维化则$f$也是 Kan 纤维化.
+    \item 全体 Kan 纤维化构成的类在滤过余极限下是稳定的.即,若$\{f_{\alpha}: X_{\alpha} \to S_{\alpha}\}$为函子范畴$\Fct([1],\cate{sSet})$中的任意滤过图表并且有余极限$f: X \to S$,每个$f_{\alpha}$均为 Kan 纤维化,则$f$也是 Kan 纤维化.
+    \item 令$f:X \to S$为 Kan 纤维化,则对于任意$s\in S$,纤维$\{s\}\dtimes{S} X$均为 Kan 复形.
+    \item 若$f:X \to Y$, $g: Y \to Z$为 Kan 纤维化.则复合$(g\circ f):X \to Z$也为 Kan 纤维化.
+    \item 若$f:X \to S$为 Kan 纤维化且$S$为 Kan 复形则$X$也为 Kan 复形.
+    \end{itemize}
+\end{remark}
+\subsection{平淡态射}
+我们知道所有 Kan 纤维化构成的态射类实际上就是$\chi_R(\{\Lambda_i^n \hookrightarrow \Delta^n : 0\leq i \leq n, n\in \Z_{\geq 1}\})$.我们在平凡 Kan 纤维化时已经发现如果$f: X \to S$为平凡 Kan 纤维化,则其实际上对于所有单态射$A\hookrightarrow B$都具有右提升性质,而不仅仅定义中的$\partial \Delta^n \to \Delta^n$(当然是由其生成的),因此我们也应当发现 Kan 纤维化也不仅仅对于$\{\Lambda_i^n \to \Delta^n : 0\leq i \leq n, n\in \Z_{\geq 1}\}$具有右提升性质,而是对于$\chi(\{\Lambda_i^n \to \Delta^n : 0\leq i \leq n, n\in \Z_{\geq 1}\})$具有右提升性质,我们把$\chi(\{\Lambda_i^n \to \Delta^n : 0\leq i \leq n, n\in \Z_{\geq 1}\})$中元素称为平淡态射(Anodyne Morphism)\footnote{平平淡淡才是真.},这个词来源于\parencite[Chapter IV.2]{Gabriel-Zisman67} .当时他们称其为 Anodyne Extension.
+\begin{definition}[平淡态射]
+    令$T$为$\cate{sSet}$中由$\{\Lambda_i^n \hookrightarrow \Delta^n : 0\leq i \leq n,n \in \Z_{\geq 1}\}$所生成的弱饱和态射类,或者说$T = \chi(\{\Lambda_i^n \to \Delta^n : 0\leq i \leq n, n\in \Z_{\geq 1}\})$.称$T$中的元素$i : A\to B$为平淡的.
+\end{definition}
+由于$X \to Y$这类符号已经被纤维化所抢注,为避免冲突,我们使用$A \to B$来表示平淡态射.
+\begin{remark}
+    \begin{itemize}
+        \item 在命题\ref{命题:单态射类弱饱和}中我们知道全体单态射构成的类是弱饱和的,并且由于$\Lambda_i^n \hookrightarrow \Delta^n$显然为单态射,因此由定义$\chi(\{\Lambda_i^n \to \Delta^n : 0\leq i \leq n, n\in \Z_{\geq 1}\})$包含于全体单态射构成的态射类中,这也说明平淡态射都是单的.\footnote{平单态射().}
+        \item 根据构造,可以得到以下结果,这些结果其实在\ref{提升性质}一节中已经证明:
+        \begin{itemize}
+            \item 每个单纯集之间的同构都是平淡态射.
+            \item 若$i: A \to B$和$j:B \to C$都是单纯集间的平淡态射,则复合$j\circ i$是平淡态射.
+            \item 平淡态射在推出下稳定.
+            \item 平淡态射在收缩核下稳定.
+        \end{itemize}
+        \item 对于$0\leq i \leq n$都有$\{i\} \hookrightarrow \Delta^n$是平淡态射.
+    \end{itemize}
+\end{remark}
+\begin{proposition}\label{命题: Kan 纤维化与平淡态射提升}
+    令$f: X \to S$为单纯集之间的态射,则以下条件是等价的:
+    \begin{enumerate}
+        \item $f$是 Kan 纤维化.
+        \item 考虑图表
+        \[\begin{tikzcd}
+	A & X \\
+	B & S
+	\arrow[from=1-1, to=1-2]
+	\arrow["i", from=1-1, to=2-1]
+	\arrow["f", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
+        其中$i$是平淡态射,则提升总是存在的.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item[(2. $\Rightarrow$ 1.)]只需要令$A \to B$为$\Lambda_i^n \hookrightarrow \Delta^n$即可.
+        \item[(1. $\Rightarrow$ 2.)]由定义立刻得到.
+    \end{enumerate}
+\end{proof}
+接下来讲述一个平淡态射的重要性质
+\begin{proposition}\label{命题:平淡诱导平淡无交并}
+    令$f: A \hookrightarrow B$以及$f' : A' \hookrightarrow B'$为单纯集之间的单态射.若$f$或$f'$是平淡的,则诱导态射
+    \[
+        (A\times B')\dsqcup{A \times A'} (B\times A') \hookrightarrow (B\times B')
+    \]
+    是平淡的.
+\end{proposition}
+\begin{proof}
+    见\parencite[\href{https://kerodon.net/tag/014D}{014D}]{Kerodon}.
+\end{proof}
+在\ref{平凡 Kan 纤维化的应用}一节中我们已经说明若$B$为单纯集且$\mathcal{D}$为$\infty$-范畴则$\Fct(B,\mathcal{D})$为$\infty$-范畴,现在我们想观察若$X$为 Kan 复形, $\Fct(B,X)$是否为 Kan 复形.
+\begin{theorem}\label{定理:态射空间纤维积与 Kan 纤维化}
+    令$f: X \to S$为 Kan 纤维化, $i : A \hookrightarrow B$为任意单纯集之间的单射.则诱导态射
+    \[
+        \Fct(B,X) \to \Fct(B,S) \dtimes{\Fct(A,S)}\Fct(A,X)
+    \]
+    为 Kan 纤维化.
+\end{theorem}
+\begin{proof}
+    证明过程实与推论\ref{推论:态射空间纤维积平凡Kan纤维化}大同小异.
+    由命题\ref{命题: Kan 纤维化与平淡态射提升}可以将证明约化为对于任意平淡态射$i' : A' \to B'$以下提升问题都有解
+    \[\begin{tikzcd}
+	{A'} & {\Fct(B,X)} \\
+	{B'} & {\Fct(B,S) \dtimes{\Fct(A,S)}\Fct(A,X)}
+	\arrow[from=1-1, to=1-2]
+	\arrow["i'"', from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    展开定义不难发现实际上这是在说以下提升问题
+    \[\begin{tikzcd}
+	{(A\times B')\dsqcup{A \times A'} (B\times A')} & X \\
+	{B\times B'} & S
+	\arrow[from=1-1, to=1-2]
+	\arrow["i", from=1-1, to=2-1]
+	\arrow["f", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    有解,这无非就是命题\ref{命题:平淡诱导平淡无交并}.
+\end{proof}
+取$A = \varnothing$(情况1)或$S = \Delta^0$(情况2)结合前文那一堆注记与例子可以得到以下这一堆推论
+\begin{corollary}\label{推论:映射空间为 Kan 复形}
+    \begin{itemize}
+        \item[情况1.] 若$f : X \to S$为 Kan 纤维化.则对于任意单纯集$B$, $f$所诱导的前推态射$\Fct(B,X)\to \Fct(B,S)$也是 Kan 纤维化.
+        \item[情况2.] 令$X$为 Kan 复形.则对于任意单态射$i : A\hookrightarrow B$都有$\Fct(B,X) \to \Fct(A,X)$是 Kan 纤维化.
+        \item[情况1+2.] 令$X$为 Kan 复形且$B$为任意单纯集.则$\Fct(B,X)$是 Kan 复形.
+    \end{itemize}
+\end{corollary}
+证明留作习题.\\
+事实上利用定理\ref{定理:态射空间纤维积与 Kan 纤维化}我们可以把推论\ref{推论:态射空间纤维积平凡Kan纤维化}推广到$f$是 Kan 纤维化而$i$是平淡态射的情况.
+\begin{theorem}\label{定理:平淡态射与平凡 Kan 纤维化}
+    令$i : A \hookrightarrow B$为单纯集之间的平淡态射而$p : X \to S$为平凡 Kan 纤维化,则诱导的典范态射
+    \[
+    \Fct(B,X) \to \Fct(B,S)\dtimes{\Fct(A,S)}\Fct(A,X)
+    \]
+    为平凡 Kan 纤维化.
+\end{theorem}
+\begin{proof}
+    根据命题\ref{命题:单态射类弱饱和}相当于说我们只需要在定理\ref{定理:态射空间纤维积与 Kan 纤维化}中把$i':A' \to B'$由平淡态射变为一般的单态射即可.仍然考虑提升问题并展开定义得到
+    \[\begin{tikzcd}
+	{(A\times B')\dsqcup{A \times A'} (B\times A')} & X \\
+	{B\times B'} & S
+	\arrow[from=1-1, to=1-2]
+	\arrow["i", from=1-1, to=2-1]
+	\arrow["f", from=1-2, to=2-2]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    由于$i$是平淡态射,因此左侧仍为平淡态射,而右侧由于$f$为 Kan 纤维化可知提升的存在性.
+\end{proof}
+为更进一步探究定理\ref{定理:态射空间纤维积与 Kan 纤维化}的作用,我们需要引入以下构造:
+\begin{definition}
+    令$B$和$X$为单纯集,考虑$\Fct(B,X)$.
+    \begin{itemize}
+        \item 给定另一个配备了一对态射$i : A \to B$以及$f: A \to X$的单纯集$A$令$\Fct_{A/}(B,X)\subset \Fct(B,X)$表示态射$\Fct(B,X) \xrightarrow{-\circ i} \Fct(A,X)$在顶点$f\in \Fct(A,X)$上的纤维.
+        \item 给定另一个配备了一对态射$g : B \to S$以及$q: X \to S$的单纯集$S$令$\Fct_{/S}(B,X)\subset \Fct(B,X)$表示态射$\Fct(B,X) \xrightarrow{q\circ -} \Fct(B,S)$在顶点$g\in \Fct(B,S)$上的纤维.
+        \item 若给定单纯集的交换图表
+        \[\begin{tikzcd}
+	A & X \\
+	B & S
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["i"', from=1-1, to=2-1]
+	\arrow["q", from=1-2, to=2-2]
+	\arrow["g"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        此时令$\Fct_{A//S}(B,X)\subset \Fct(B,X)$表示交$\Fct_{A/}(B,X) \cap \Fct_{/S}(B,X)$.
+    \end{itemize}
+\end{definition}
+\begin{remark}
+    令$B$和$X$为单纯集,并且用态射$\bar{f} : B \to X$来表示$\Fct(B,X)$的顶点.则
+    \begin{itemize}
+        \item 给定另一个配备了一对态射$i : A \to B$以及$f : A\to X$的单纯集$A$,则$\Fct_{A/}(B,X)$中的顶点$f$可以表示为满足$f = \bar{f} \circ i$的$\bar{f}$.
+        \item 给定另一个配备了一对态射$g : B \to S$以及$q: X \to S$的单纯集$S$,则$\Fct_{/S}(B,S)$中的顶点$g$可以表示为满足$g = q \circ \bar{f}$的$\bar{f}$.
+        \item 若给定单纯集的交换图表
+        \[\begin{tikzcd}
+	A & X \\
+	B & S
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["i"', from=1-1, to=2-1]
+	\arrow["q", from=1-2, to=2-2]
+	\arrow["{\bar{f}}"{description}, dashed, from=2-1, to=1-2]
+	\arrow["g"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        $\Fct_{A//S}(B,X)$的顶点可以表示为使得图表交换的提升$\bar{f}$.
+        \item 若上图不交换,则$\Fct_{A//S}(B,X) = \Fct_{A/}(B,X) \cap \Fct_{/S}(B,X)$为空集.
+        \item 对于上图的交换图表,我们可以进一步看出以下事实
+        \begin{itemize}
+            \item 若$S \simeq \Delta^0$为终对象,则$\Fct_{A//S}(B,X) = \Fct_{A/}(B,X)$.
+            \item 若$A \simeq \varnothing$为始对象,则$\Fct_{A//S}(B,X) = \Fct_{/S}(B,X)$.
+            \item 若$S \simeq \Delta^0$且$A\simeq \varnothing$则$\Fct_{A//S}(B,X) = \Fct(B,X)$.
+        \end{itemize}
+        \item 还是那个图表,单纯集$\Fct_{A//S}(B,X)$可以表示为以下诱导态射
+        \[
+            \Fct(B,X) \to \Fct(A,X) \dtimes{\Fct(A,S)}\Fct(B,S)
+        \]
+        在$(f,g)$上的纤维.
+    \end{itemize}
+\end{remark}
+\begin{proposition}
+    若给定交换图表
+    \[\begin{tikzcd}
+	A & X \\
+	B & S
+	\arrow["f", from=1-1, to=1-2]
+	\arrow["i"', from=1-1, to=2-1]
+	\arrow["q", from=1-2, to=2-2]
+	\arrow["{\bar{f}}"{description}, dashed, from=2-1, to=1-2]
+	\arrow["g"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    其中$i$为单态射且$q$为 Kan 纤维化.则单纯集$\Fct_{A//S}(B,X)$是 Kan 复形.若 $i$ 是平淡的,则 Kan 复形$\Fct_{A//S}(B,X)$是可缩的.
+\end{proposition}
+\begin{proof}
+    由前文注记可知$\Fct_{A//S}(B,X)$可以表示为
+    \[\theta :\Fct(B,X) \to \Fct(A,X) \dtimes{\Fct(A,S)}\Fct(B,S)\]
+    在$(f,g)$处的纤维,而后由定理\ref{定理:态射空间纤维积与 Kan 纤维化}知道$\theta$是 Kan 纤维化,再由例\ref{例:Kan 纤维化}可知 $\Fct_{A//S}(B,X)$作为纤维是 Kan 复形.\\
+    此外,若 $i$ 为平淡态射,由于 $q$ 是 Kan 纤维化,因此由定理\ref{定理:平淡态射与平凡 Kan 纤维化}可知 $\theta$ 为平凡 Kan 纤维化,从而 $\Fct_{A//S}(B,X)$是可缩 Kan 复形.
+\end{proof}
+\begin{corollary}
+    令$B$为单纯集, $A \subset B$为子单纯集,且令 $f: A \to X$为单纯集之间的态射.若 $X$ 为 Kan 复形,则单纯集 $\Fct_{A/}(B,X)$为 Kan 复形.若嵌入态射 $A \hookrightarrow B$ 是平淡的,则 $\Fct_{A/}(B,X)$是可缩的.
+\end{corollary}
+同理得到$\Fct_{/S}(B,X)$的情况.
+
+\subsection{单纯集的同伦}\label{单纯集的同伦}
+我们在定义\ref{定义:单纯集中态射同伦}中已然提及了单纯集中态射同伦的概念,在本节中,我们对这一概念进行深入探讨.\\
+先对前文所给出的定义再进行一次翻译
+\begin{definition}
+    令$X$与$Y$为单纯集,并且假设有一对态射$f_0,f_1 : X\to Y$.从$f_0$到$f_1$的同伦是指一个满足$f_0 = h\mid_{\{0\}\times X}$且$f_1  = h\mid_{\{1\}\times X}$态射$h : \Delta^1\times X\to Y$.
+\end{definition}
+\begin{remark}[同伦提升性质]
+    令$f:X \to Y$为 Kan 纤维化.若给定态射$u :B \to X$以及$f\circ u$到$\bar{v} : B \to S$的同伦$\bar{h}$.则存在单纯集之间的态射$h : \Delta^1 \times B \to X$使得$f\circ h = \bar{h}$且$h\mid_{\{0\}\times B} = u$;换句话说$\bar{h}$可以提升为从$u$到一个态射$v = h\mid_{\{1\}\times B}$的同伦$h$.此外,给定子单纯集$A \subset B$并且任意满足$f\circ h_0 = \bar{h}\mid_{\Delta^1 \times A}$以及$h_0\mid_{\{0\}\times A} = u\mid_A$的态射$h_0 : \Delta^1 \times A \to X$,我们就可以把$h$写为$h_0$的扩张,事实上这一点由定理\ref{定理:态射空间纤维积与 Kan 纤维化}所保证,可以发现
+    \[
+        \Fct(B,X) \to \Fct(B,S) \dtimes{\Fct(A,S)}\Fct(A,X)
+    \]
+    为 Kan 纤维化(并且$\{0\}\hookrightarrow \Delta^1$为平淡态射).
+\end{remark}
+\begin{proposition}
+    令$X$和$Y$为单纯集,假定有一对态射$f,g : X \to Y$,则
+    \begin{itemize}
+        \item $f$与$g$同伦当且仅当存在一列态射$f = f_0 ,f_1,\cdots,f_{n-1},f_n = g:X\to Y$使得对于每个$0\leq i \leq n$,要么存在一个$f_{i-1}$到$f_i$的同伦,要么存在一个$f_i$到$f_{i-1}$的同伦.
+        \item 若$Y$为 Kan 复形,则 $f$ 与 $g$ 同伦当且仅当存在一个从 $f$ 到 $g$ 的同伦.
+    \end{itemize}
+\end{proposition}
+单纯集态射同伦与拓扑空间连续映射同伦之间的关系我们在本章的序言中已经提到.现在更加深入的探讨这一点.
+\begin{example}
+    令$X$为单纯集而$Y$为拓扑空间.假定有一对连续映射$f_0,f_1 : |X|\to Y$,它对应于单纯集之间的一对态射$f_0',f_1' : X \to \Sing(Y)$.令$h : [0,1]\times |X| \to Y$为$f_0$到$f_1$的同伦.则复合态射
+    \[
+    |\Delta^1 \times X| \xrightarrow{\theta} |\Delta^1|\times |X| = [0,1]\times |X| \xrightarrow{h} Y
+    \]
+    由定理\ref{The:单纯集的积的几何意义},我们知道在$\cate{CGWH}$中有$|\Delta^1 \times X| \simeq |\Delta^1 |\times |X|$,因此其决定了一个单纯集之间的态射$h' : \Delta^1 \times X\to \Sing(Y)$,它是$f_0'$到$f_1'$的同伦.换句话说,我们有一一对应
+    \[
+    \{f_0\text{到}f_1\text{的}(\text{连续})\text{同伦}\} \xleftrightarrow{1:1} \{f'_0 \text{到}f'_1 \text{的}(\text{单纯})\text{同伦}\}.
+    \]
+\end{example}
+\begin{example}\label{例:自然变换与同伦}
+    令$\mathcal{C}$与$\mathcal{D}$为范畴,且$F : \mathcal{C} \to \mathcal{D}$为一对函子,则通过取脉可以得到一对对应的单纯集之间的态射$\nerve(F) , \nerve (G) : \nerve \mathcal{C} \to \nerve \mathcal{D}$.我们可以考虑$\nerve(F)$到$\nerve (G)$的同伦 
+    \[
+    h : \Delta^1 \times \nerve \mathcal{C} \simeq \nerve([1] \times \mathcal{C}) \to \nerve \mathcal{D}
+    \]
+    其中$h\mid_{\{0\}\times \nerve \mathcal{C}} = \nerve (F)$且$h\mid_{\{1\}\times \nerve \mathcal{C}} = \nerve(G)$.由脉的全忠实性,这相当于说有一个函子$H :[1]\times \mathcal{C} \to \mathcal{D}$.使得$H\mid_{\{0\} \times\mathcal{C}} = F$而$H\mid_{\{1\}\times \mathcal{C}} =G$.换句话说,这意味着我们有一一对应
+    \[
+    \{F\text{到}G\text{的}\text{自然变换}\}\xleftrightarrow{1:1} \{\nerve(F) \text{到}\nerve(G) \text{的}\text{同伦}\}
+    \]
+\end{example}
+接下来记$[f]$为$f$的同伦类,即$f$在$\pi_0\Fct(X,Y)$下的像,则有以下构造:
+\begin{definition}[Kan 复形的同伦范畴]
+    可以定义如下的范畴$\cate{hKan}$:
+    \begin{itemize}
+        \item $\cate{hKan}$的对象为 Kan 复形.
+        \item 若$X$和$Y$均为 Kan 复形,则 $\Hom_{\cate{hKan}}(X,Y) = [X,Y] = \pi_0 \Fct(X,Y)$为模去同伦关系的商集.
+        \item 对于 Kan 复形 $X$, $Y$, $Z$,有复合律
+        \begin{align*}
+            \circ : \Hom_{\cate{hKan}}(Y,Z)\times \Hom_{\cate{hKan}}(X,Y) &\to \Hom_{\cate{hKan}}(X,Z)\\
+            [g]\circ [f] &\mapsto [g\circ f]
+        \end{align*}
+    \end{itemize}
+    称$\cate{hKan}$为 Kan 复形的同伦范畴.
+\end{definition}
+\begin{remark}
+    \begin{itemize}
+        \item 令$\cate{Kan}$为$\cate{sSet}$中由全体 Kan 复形所张成的全子范畴,且令$\mathcal{C}$为任意范畴,则$\Fct(\cate{hKan},\mathcal{C})$往前复合上商函子$\cate{Kan} \to \cate{hKan}$就诱导出函子
+        \[
+            \Fct(\cate{hKan},\mathcal{C})\to \Fct(\cate{Kan},\mathcal{C})
+        \]
+        不难发现前者同构于由满足以下条件的函子$F: \cate{Kan} \to \mathcal{C}$所张成的全子范畴
+        \begin{enumerate}
+            \item[(*)] 若$X$和 $Y$为 Kan 复形且$u_0,u_1: X \to Y$为同伦的态射,则在$\Hom(F(X),F(Y))$中有$F(u_0) = F(u_1)$.
+        \end{enumerate}
+        \item 令$\mathcal{C}$为局部 Kan 的单纯范畴.则其同伦范畴具有典范的$\cate{hKan}$-充实结构,具体写出为
+        \begin{itemize}
+            \item 对于每一对对象$X,Y \in \mathcal{C}$,映射对象$\iHom_{h\mathcal{C}}(X,Y)$为 Kan 复形$\Hom_{\mathcal{C}}(X,Y)$,即$\cate{hKan}$中的对象.
+            \item 对于对象$X,Y,Z\in \mathcal{C}$,复合律
+            \[
+                \iHom_{h\mathcal{C}} (Y,Z) \times \iHom_{h\mathcal{C}}(X,Y) \to \iHom_{h\mathcal{C}}(X,Z)
+            \]
+            它是$\mathcal{C}$中复合律的同伦类.
+        \end{itemize}
+    \end{itemize}
+\end{remark}
+有了同伦范畴$\cate{hKan}$,我们可以定义两个 Kan 复形之间的同伦等价概念,就如同$\infty$-范畴中的态射等价一般,我们定义若$f: X \to Y$的同伦类$[f]$在$\cate{hKan}$中为同构,则称它为 Kan 复形之间的同伦等价.事实上,可以将这一概念延拓到一般的单纯集上.
+\begin{definition}[同伦等价]
+    令$f: X \to Y$为单纯集之间的态射.称态射$g : Y \to X$为$f$的单纯同伦逆,若$g\circ f$以及$f\circ g$分别同伦于$\identity_X$和$\identity_Y$.在$X$和$Y$为 Kan 复形时,若$g$为$f$的单纯同伦逆,此时简称其为$f$的同伦逆.若$f$具有同伦逆,则称其为同伦等价.
+\end{definition}
+\begin{example}
+    令$f:X \to Y$为拓扑空间之间的同伦等价,则$\Sing(f) : \Sing(X) \to \Sing(Y)$为单纯集的同伦等价.
+\end{example}
+\begin{remark}
+    \begin{itemize}
+        \item 若$f : X \to Y$为单纯集之间的态射,则$f$为同伦等价只与其同伦类$[f]\in \pi_0 \Fct(X,Y)$有关,此外,若$f$为同伦等价,则其单纯同伦逆$g : Y \to X$在同伦意义下是唯一确定的.
+        \item 令$f : X \to Y$为 Kan 复形之间的态射,若$f$为同伦等价,则其诱导的基本群胚(定义\ref{定义:Kan 复形的基本群胚})之间的态射$\pi_{\leq 1}(f) : \pi_{\leq 1}(X) \to \pi_{\leq 1}(Y)$为范畴等价.特别地, $f$诱导了双射$\pi_0(f): \pi_0(X)\to \pi_0(Y)$.
+        \item 令$f : X \to Y$为单纯集之间的态射,则以下条件等价:
+        \begin{itemize}
+            \item $f$是同伦等价.
+            \item 对于任意单纯集$Z$, $f$所诱导的态射$\pi_0 \Fct(Y,Z) \to \pi_0 \Fct(X,Z)$是双射.
+            \item 对于任意单纯集$W$, $f$所诱导的态射$\pi_0 \Fct(W,X) \to \pi_0 \Fct(W,Y)$是双射.
+        \end{itemize}
+        特别地,取$W = \Delta^0$时若$f$为同伦等价,则$\pi_0(f) : \pi_0 (X)\to \pi_0(Y)$为双射,也就对应上一条注记.
+        \item (三选二)令$f : X \to Y$与$g : Y \to Z$为单纯集之间的态射,则若$f,g,g\circ f$中三者有两者为同伦等价,则第三者也是同伦等价.
+        \item 令$\{f_i : X_i \to Y_i\}_{i\in I}$为一族单纯集的同伦等价,且$f: \prod_{i\in I}X_i \to \prod_{i\in I}Y_i$为它们乘积之间的态射,则
+        \begin{itemize}
+            \item 若$I$是有限的,则$f$为同伦等价,此处证明需要用到命题\ref{命题:连通性}.
+            \item 若每个$X_i$和$Y_i$均为 Kan 复形,则$f$为同伦等价,此处需要命题\ref{命题: Kan 复形乘积的连通性}.
+            \item 一般情况下$f$不一定是同伦等价.
+        \end{itemize}
+    \end{itemize}
+\end{remark}
+以下给出一些同伦等价的定义
+\begin{proposition}
+    令$F: \mathcal{C} \to \mathcal{D}$为范畴之间的函子,并且假设$F$具有左或右伴随.则诱导的单纯集之间的态射$\nerve(F) : \nerve \mathcal{C} \to \nerve \mathcal{D}$为单纯集之间的同伦等价.
+\end{proposition}
+\begin{proof}
+    不妨设$F$具有右伴随$G : \mathcal{D}\to \mathcal{C}$.因此可以考虑单位$\eta : \identity_{\mathcal{C}}\to GF$与余单位$\varepsilon : FG \to \identity_{\mathcal{D}}$,根据例\ref{例:自然变换与同伦},这给出同伦$\bar{\eta}: \nerve(\identity_{\mathcal{C}})\to \nerve(GF)$以及$\bar{\varepsilon}: \nerve(FG) \to \nerve(\identity_{\mathcal{D}})$,由函子定义说明$\nerve (G)$为$\nerve (F)$的单纯同伦逆.
+\end{proof}
+\begin{proposition}
+    若$f:X\to S$为平凡 Kan 纤维化,则$f$为同伦等价.
+\end{proposition}
+\begin{proof}
+    由推论\ref{推论:平凡 Kan 纤维化有截面}可知存在$s: S\to X$使得$f\circ s = \identity_S$,并且$s\circ f$逐纤维同伦于$\identity_X$,因此为同伦等价.
+\end{proof}
+此外,一般情况下,我们不会使用严格的同伦等价,反而更青睐于弱同伦等价.
+回忆到称拓扑空间的连续映射$f : X \to Y$是弱同伦等价当且仅当其诱导的映射$\pi_0(f) : \pi_0(X)\to \pi_0(Y)$是双射.而事实\ref{事实:群胚}已经告诉了我们$\infty$-群胚(或者说 Kan 复形)的地位,此外推论\ref{推论:映射空间为 Kan 复形}告诉我们对于任意Kan 复形 $Z$, $\Fct(S,Z)$是 Kan 复形.由此引出以下定义:
+\begin{definition}[弱同伦等价]\label{定义:弱同伦等价}
+    令$f: X \to Y$为单纯集之间的态射,若对于每个 Kan 复形$Z$, $f$所诱导的拉回$\pi_0\Fct(Y,Z) \to \pi_0\Fct(X,Z)$均为双射,则称$f$为弱同伦等价.
+\end{definition}
+\subsection{纤维性替换,小对象论证}
+这一部分可能与\parencite[\href{https://kerodon.net/tag/00UU}{00UU}]{Kerodon}略有差异,我们将先沿着\parencite[Proposition A.1.2.5]{HTT}中小对象论证部分进行讲解,证明一般模型范畴上的纤维性替换,而后再以 Kan 纤维化与平淡态射为例进行讲解.
+
+\subsection{同伦拉回与推出}
+\subsection{子$\infty$-范畴}
+我们已经介绍了$\infty$-群胚以及子$\infty$-群胚的概念,接下来我们介绍子$\infty$-范畴.
+\begin{definition}
+    设$\mathcal{C}$为$\infty$-范畴,称子单纯集$\mathcal{C}'$为$\mathcal{C}$的子$\infty$-范畴如果
+    \begin{enumerate}
+        \item $0$-单形的子集$\mathcal{C}'_0\subset \mathcal{C}_0$.
+        \item 分$1$-单形构成的子集$\mathcal{C}'_1 \subset \mathcal{C}_1$.
+        \item $\mathcal{C}'_1$中的元素均为连接$\mathcal{C}'_0$中对象的1-单形,或者说具有由$\mathcal{C}_1$限制而来的映射
+        \[\begin{tikzcd}
+	    {\mathcal{C}'_1} & {\mathcal{C}_0'}
+	    \arrow["{d_0}", shift left, from=1-1, to=1-2]
+	    \arrow["{d_1}"', shift right, from=1-1, to=1-2]
+        \end{tikzcd}\]
+        \item $\mathcal{C}_1$关于态射的复合以及等价稳定.
+    \end{enumerate}
+    此外,若$\mathcal{C}_1$中边界落在$\mathcal{C}'_0$的所有$1$-单形都在$\mathcal{C}'_1$中,则称$\mathcal{C}'$为全子$\infty$-范畴.
+\end{definition}
+不难发现一个$\mathcal{C}$中的$n$-单形在$\mathcal{C}'$内当且仅当它的边界限制在$I^n$上时落在$\mathcal{C}'_1$中.
+\begin{lemma}
+    $\infty$-范畴的子$\infty$-范畴是一个$\infty$-范畴.它的同伦范畴为$h\mathcal{C}$的子范畴且态射的像落在$\mathcal{C}'_1$内.有拉回图表
+    \[\begin{tikzcd}
+	{\mathcal{C}'} & {\mathcal{C}} \\
+	{\nerve(h\mathcal{C}')} & {\nerve(h\mathcal{C})}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    此外,对于任意子范畴$(h\mathcal{C})'\subset h\mathcal{C}$,这一拉回图表定义出一个如前文一般的子$\infty$-范畴且$\mathcal{C}'_0$与$\mathcal{C}'_1$为其对象和态射沿着典范态射$\mathcal{C} \to \nerve(h\mathcal{C})$的原像.
+\end{lemma}
+\begin{proof}
+    取$\mathcal{C}$为$\infty$-范畴,$\mathcal{D}\subset h\mathcal{C}$为同伦范畴的子范畴.取$\mathcal{C}'$为拉回$\nerve \mathcal{D} \dtimes{\nerve h\mathcal{C}}\mathcal{C}$.由于拉回保单射(见\parencite[引理1.1.5]{李文威卷二}.),因此$\mathcal{C}'$为$\mathcal{C}$的子单纯集.现在需要给出$\mathcal{C}$中$n$-单形在$\mathcal{C}'$中的条件,不难发现设$\sigma\in \mathcal{C}_n$为$n$-单形,若$\sigma$所诱导的$\nerve h\mathcal{C}$在$\nerve \mathcal{D}$中时,其对应的脊在$\mathcal{D}$中,因此自然得到$\sigma\in (\mathcal{C}')_n$,而由于$\mathcal{C}$为$\infty$-范畴,可以推知此时$\mathcal{C}'$也满足扩张性质(落在$\mathcal{C}'$内),即也为$\infty$-范畴.\\
+    现在观察到一个包含$(\mathcal{C}')_0$中所有恒等态射并且在态射复合下稳定的子集$S\subset \mathcal{C}_1$事实上就是$h\mathcal{C}$的子范畴的脉中的1-态射的原像.注意到根据前文有$(\mathcal{C}')_1 = S$,因此根据子$\infty$-范畴定义知$\mathcal{C}'$确为子$\infty$-范畴.
+\end{proof}
+\begin{corollary}
+    设$\mathcal{C}$为$\infty$-范畴,可以得到一一对应
+    \[
+        \{\mathcal{C}\text{的子}\infty\text{-范畴}\} \xleftrightarrow{1:1} \{h\mathcal{C}\text{的子范畴}\}.
+    \]
+    更进一步,有
+    \[
+        \{\mathcal{C}\text{的全子}\infty\text{-范畴}\} \xleftrightarrow{1:1} \{h\mathcal{C}\text{的全子范畴}\}.
+    \]
+\end{corollary}
+\section{图表,映射空间,极限}
+\begin{definition}[图表]
+    令$\mathcal{C}$为$\infty$-范畴. $\mathcal{C}$中的图表是单纯集的映射$f:S\to \mathcal{C}$.也称映射$f:S\to\mathcal{C}$为$\mathcal{C}$中以$S$为指标的图表,或$S$-指标图表.
+\end{definition}
+\begin{remark}
+    当$S$是$\infty$-范畴时,对应图表就是从$S$到$\mathcal{C}$的函子.这种术语的转变有利于表达立场,如果我们将$\mathcal{C}$和$\mathcal{D}$视为地位平等的$\infty$-范畴时,我们使用函子$\mathcal{C}\to\mathcal{D}$这一称呼,而若我们只对于$\infty$-范畴$\mathcal{C}$感兴趣,则使用图表$S\to\mathcal{C}$这一称呼(一般来说$S$会是一个非常简单的单纯集).
+\end{remark}
+接下来我们讨论$\infty$-范畴的态射空间.
+\begin{definition}[态射空间]
+    令$\mathcal{C}$为$\infty$-范畴,且$X,S\in \mathcal{C}$,则我们定义$X,S$之间的态射$\infty$-范畴(也称从$X$到$S$的态射空间)$\Hom_{\mathcal{C}}(X,S)$为拉回
+    \[\begin{tikzcd}
+	{\Hom_{\mathcal{C}}(X,S)} & {\Fct(\Delta^1,\mathcal{C})} \\
+	{*} & {\mathcal{C}\times \mathcal{C}}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow["{(X,S)}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    其中右侧纵向箭头表示来源,目标态射(即取值在$0$和$1$的态射).也可表述为
+    \[
+        \{X\}\underset{\Fct(\{0\},\mathcal{C})}{\times} \Fct(\Delta^1,\mathcal{C})\underset{\Fct(\{1\},\mathcal{C})}{\times}\{S\}.
+    \]
+\end{definition}

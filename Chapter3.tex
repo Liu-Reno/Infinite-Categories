@@ -1,0 +1,265 @@
+\chapter{单纯范畴}
+令$\operatorname{Top}$表示拓扑空间范畴.根据定义,$\operatorname{Top}$中态射均为连续函数.在同伦论中,我们并不关心函数自身,而是关心它们之间的同伦:即,连续函数$h:[0,1]\times X\to Y$.更一般地,对于每个$n\geq 0$我们可以考虑
+\[
+    \Hom_{\operatorname{Top}}(X,Y)_n = \{\text{连续函数}\sigma : |\Delta^n| \times X\to Y\}
+\]
+此处$|\Delta^n|$为几何实现.集合$\{\Hom_{\operatorname{Top}}(X,Y)_n\}_n$可以被嵌入到单纯集$\Hom_{\operatorname{Top}}(X,Y)_{\bullet}$中,并且$(X,Y)\mapsto \Hom_{\operatorname{Top}}(X,Y)_{\bullet}$赋予$\operatorname{Top}$一个$\Cat_{\operatorname{sSet}}$-充实结构(当然我们后面会简写为$\Cat_{\Delta}$),我们称其为单纯范畴.正如奇异单纯集$\operatorname{Sing}_{\bullet}(X) = \Hom_{\operatorname{Top}}(*,X)_{\bullet}$可以被视为拓扑空间$X$的同伦型的组合编码一般.$\operatorname{Top}$的单纯充实化从同伦论角度对于拓扑空间进行的组合编码.\\
+此外, \cite{SixFunctors}里$\Cat_{\infty}$也需要通过单纯范畴及其同伦脉来定义(见\ref{平凡 Kan 纤维化的应用}一节).
+\section{单纯范畴定义}
+\begin{notation}
+    令$\mathcal{V}$为幺半范畴,则$\operatorname{Cat}_{\mathcal{V}}$表示$\mathcal{V}$-充实范畴所构成的范畴,即其对象为$\mathcal{V}$-充实范畴而态射为$\mathcal{V}$-充实函子.
+\end{notation}
+首先需要一些必要的幺半范畴引理
+\begin{lemma}
+    若$\Phi : \mathcal{V} \to \mathcal{V}'$为幺半范畴之间的右松幺半函子,则将$\Phi$应用在$\iHom$-对象上即可得到函子$\Phi_* : \operatorname{Cat}_{\mathcal{V}}\to \operatorname{Cat}_{\mathcal{V}'}$.事实上,这种结构定义出
+    \[
+        \operatorname{MonCat} \to \operatorname{Cat}
+    \]
+    这样一个从(小)幺半范畴构成的2-范畴(0-态射:幺半范畴,1-态射:右松幺半函子,2-态射:幺半自然变换)到由(小)范畴构成的2-范畴(0-态射:范畴,1-态射:函子,2-态射:自然变换)的2-函子.特别地,$\mathcal{V}$与$\mathcal{V}'$的幺半伴随决定了充实范畴的幺半伴随.
+\end{lemma}
+\begin{proof}
+    见\parencite[Lemma 1.2.37]{Land}.
+\end{proof}
+通过上述引理,就可以将充实范畴对应回一般的范畴,称为底范畴.
+\begin{definition}\label{定义:底范畴}
+    令$\mathcal{V}$为幺半范畴,且$\mathcal{C}$为一个$\mathcal{V}$-充实范畴.则其底范畴$u\mathcal{C}$由松幺半函子
+    \[
+        \Hom(\identity,-):\mathcal{V} \to\operatorname{Set}
+    \]
+    形式化的写出即为
+    \[
+        u\mathcal{C} = \Hom_{\mathcal{V}}(\identity,-)_*(\mathcal{C})\in \operatorname{Cat}_{\operatorname{Set}}=\operatorname{Cat}
+    \]
+\end{definition}
+接下来介绍单纯范畴
+\begin{definition}[单纯范畴]
+    我们把充实于单纯集范畴的范畴称为单纯范畴.此处单纯集范畴$\operatorname{sSet}$通过积结构可以视为幺半范畴.本节将全体单纯范畴所构成的范畴简写为$\operatorname{Cat}_{\Delta}$.
+\end{definition}
+\begin{example}
+    考虑拓扑空间构成的范畴$\cate{Top}$.它可以通过以下方式转变为单纯范畴:给定一对拓扑空间$X$, $Y$.定义单纯集$\iHom_{\cate{Top}}(X,Y)$如下
+    \[
+    \iHom_{\cate{Top}}(X,Y)_n = \Hom_{\cate{Top}}(|\Delta^n|\times X,Y)
+    \]
+    特别地,其每个顶点都可以视为从$X$到$Y$的连续函数$f$.此外,不难发现考虑$X$为单点时, $\iHom(*,Y) \simeq \Sing(Y)$.
+\end{example}
+\begin{remark}
+    通常来说单纯范畴指代的是范畴中的一个单形对象,即一个函子$\Delta^{\opposite}\to\operatorname{Cat}$.这似乎与单纯范畴的定义冲突,以下引理将对其进行解释.
+\end{remark}
+
+
+\begin{lemma}
+    $\operatorname{Cat}_{\Delta}$可以通过$(\ev_n)_*:\operatorname{Cat}_{\Delta} \to \operatorname{Cat}$得到全忠实嵌入$\operatorname{Cat}_{\Delta} \to \Fct(\Delta^{\opposite},\operatorname{Cat})$.事实上可以得到以下拉回
+\[\begin{tikzcd}
+	{\Cat_{\Delta}} && {\Fct(\Delta^{\opposite},\Cat)} \\
+	{\operatorname{Set}} && {\Fct(\Delta^{\opposite},\operatorname{Set})}
+	\arrow["{\mathcal{C}\mapsto ((\ev_n)_*\mathcal{C})_{\bullet}}", from=1-1, to=1-3]
+	\arrow["{\operatorname{Ob}}", from=1-1, to=2-1]
+	\arrow["{\operatorname{Ob}}"', from=1-3, to=2-3]
+	\arrow[from=2-1, to=2-3]
+\end{tikzcd}\]
+\end{lemma}
+可以利用$\operatorname{Cat}$是完备且余完备的来说明$\operatorname{Cat}_{\Delta}$是完备且余完备的.进一步,可以不局限于单纯集范畴,可以推广为任意小范畴$\mathcal{C}$的预层范畴$\mathcal{C}^{\land}$.\\
+我们可以验证常值函子与$\pi_0,\ev_0$都是典范幺半的.
+\begin{lemma}\label{引理:三个函子均幺半}
+    函子$c: \operatorname{Set} \to \operatorname{sSet}$以及$\pi_0,\ev_0:\operatorname{sSet}\to \operatorname{Set}$均为典范幺半的.
+\end{lemma}
+\begin{proof}
+    断言每个函子$F:(\mathcal{V},\times,*) \to (\mathcal{W},\times,*)$都是典范左松幺半的.左松幺半结构态射给定如下
+    \begin{enumerate}
+        \item $F(*) \to *$,即唯一一个到$\mathcal{W}$的终对象的态射,且
+        \item $F(X\times Y) \to F(X) \times F(Y)$,它由$F$作用在两个投影
+        \[
+            X\leftarrow X\times Y \rightarrow Y
+        \]
+        所给出.\\
+        因此只需要检查我们所给出的函子确实具有左松幺半结构即可,即左松幺半结构所对应的态射在前文的函子中是同构.对于$c$以及$\ev_0$,由定义即知具有左松幺半结构.而$\pi_0$函子需要一些额外的论证.需要检查态射
+        \[
+            \pi_0(X\times Y) \to \pi_0(X)\times \pi_0(Y)
+        \]
+        是双射.根据定义可知$\pi_0$作用后的单纯集具有以下交换图表
+        \[\begin{tikzcd}
+	    {(X\times Y)_0} & {X_0\times Y_0} \\
+	    {\pi_0(X\times Y)} & {\pi_0(X)\times \pi_0(Y)}
+	    \arrow["\simeq", from=1-1, to=1-2]
+	    \arrow[two heads, from=1-1, to=2-1]
+	    \arrow[two heads, from=1-2, to=2-2]
+	    \arrow[from=2-1, to=2-2]
+        \end{tikzcd}\]
+        由于顶部水平态射是双射,因此给出左松幺半结构为满射.由于$\pi_0(X\times Y)$中对应关系的生成元可以被提升到$(X\times Y)_0$, $\pi_0(X)$和$\pi_0(Y)$亦是如此,并且$\ev_1$也具有幺半结构,因此得知双射.并且不难验证$\pi_0(*)\to*$是同构.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    \begin{enumerate}
+        \item $c= c_* : \operatorname{Cat} \to \operatorname{Cat}_{\Delta}$,将一个范畴送到常值单纯集填充的充实范畴.
+        \item $h = (\pi_0)_*:$,称为单纯范畴的同伦范畴,以及
+        \item $u = (\ev_0)_*:\operatorname{Cat}_{\Delta} \to \operatorname{Cat}$,称为底范畴,在不会造成歧义时也直接写作$\mathcal{C}_0$.
+    \end{enumerate}
+    注意到$\ev_0 = \Hom_{\operatorname{sSet}}(\Delta^0,-)$,因此它与定义\ref{定义:底范畴}是相容的.
+\end{definition}
+
+\begin{definition}
+    考虑单纯范畴之间的单纯函子$F:\mathcal{C}\to\mathcal{D}$.
+    \begin{enumerate}
+        \item 若对每一对对象$X,Y\in \operatorname{Ob}(\mathcal{C})$, $F$所诱导的单纯集间的态射$\Hom_{\mathcal{C}}(X,Y)\to \Hom_{\mathcal{D}}(F(X),F(Y))$是单纯集的弱同伦等价(定义\ref{定义:弱同伦等价}),则称$F$是弱全忠实的.
+        \item 若$F$诱导的同伦范畴之间的函子$hF : h\mathcal{C}\to h\mathcal{D}$为本质满(即$\mathcal{D}$中每个对象都同伦等价于$X\in \operatorname{Ob}(\mathcal{C})$中的$FX$)则称$F$是弱本质满的.
+        \item 若$F$既是弱全忠实又是弱本质满,则称$F$是单纯范畴之间的弱等价.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    \cite{Land}中完全没有提到弱等价的定义,差评.
+\end{remark}
+\begin{lemma}
+    以积作为幺半结构的幺半范畴之间的函子都是典范左松幺半的.每两个这样的函子之间的自然变换也都是典范左松的.特别地,伴随对$(\pi_0,c)$以及$(c,\ev_0)$均为幺半伴随.
+\end{lemma}
+\begin{proof}
+    在引理\ref{引理:三个函子均幺半}中已然说明了每个函子$F:(\mathcal{V},\times,*)\to(\mathcal{W},\times,*)$都带有典范左松幺半结构.因此令$\tau :F \to G$为自然变换.只需要证明图表
+    \[\begin{tikzcd}
+	{F(X\times Y)} & {F(X)\times F(Y)} \\
+	{G(X\times Y)} & {G(X)\times G(Y)}
+	\arrow[from=1-1, to=1-2]
+	\arrow["{\tau_{X\times Y}}", from=1-1, to=2-1]
+	\arrow["{\tau_X\times \tau_Y}", from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+    的交换性即可.为此,在引理\ref{引理:三个函子均幺半}已经说明结构态射为$X\leftarrow X\times Y \rightarrow Y$,因此只需要考察图表
+    \[\begin{tikzcd}
+	{F(X)} & {F(X\times Y)} & {F(Y)} \\
+	{G(X)} & {G(X\times Y)} & {G(Y)}
+	\arrow["{\tau_X}"', from=1-1, to=2-1]
+	\arrow[from=1-2, to=1-1]
+	\arrow[from=1-2, to=1-3]
+	\arrow["{\tau_{X\times Y}}", from=1-2, to=2-2]
+	\arrow["{\tau_Y}", from=1-3, to=2-3]
+	\arrow[from=2-2, to=2-1]
+	\arrow[from=2-2, to=2-3]
+    \end{tikzcd}\]
+    的交换性即足,这是$\tau$的自然性的直接体现.\\
+    现在需要说明左松幺半函子之间的左松幺半变换是幺半变换,注意到在上述图表中,若纵向箭头为同构,则箭头倒转图表仍然交换.
+\end{proof}
+\begin{corollary}
+    具有两个伴随对$h\dashv c$以及$c \dashv u$.
+\end{corollary}
+不难看出这个伴随给出单纯范畴的典范函子$\mathcal{C}\to ch\mathcal{C}$.
+由于我们可以定义出单纯范畴的同伦范畴和底范畴,因此可以类似给出单纯范畴中态射以及态射等价.
+\begin{definition}
+    给定单纯范畴$\mathcal{C}$以及两个对象$X,Y\in \mathcal{C}$,我们称一个从$X$到$Y$的态射为其在底范畴$u\mathcal{C}$上的态射.换句话说,是$\Hom_{\mathcal{C}}(X,Y)$中的$0$-单形.若其在同伦范畴$h(\mathcal{C})$为同构,则称其为等价.
+\end{definition}
+\section{同伦脉}
+讲述了单纯范畴还不够,我们需要把单纯范畴转换为单纯集进行操作.就像在一般范畴与单纯集间进行转换一样,为了在$\infty$-范畴与单纯范畴之间进行转换,我们将定义出一对伴随函子
+\[\begin{tikzcd}
+	{\operatorname{sSet}} && {\operatorname{Cat}_{\Delta}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Path[-]}", bend left=60, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\nerve^{\operatorname{hc}}}", bend left=60, from=1-3, to=1-1]
+	\arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=0, to=1]
+\end{tikzcd}\]
+但是,$[n]$自身并不是一个单纯范畴,我们想将其转化为一个单纯范畴,并且$[n]$中态射具有严格的复合律,这与高阶范畴论的哲学原理是相悖的.为此,我们需要引入偏序集的道路2-范畴.
+\begin{definition}
+    令$(Q,\leq)$为偏序集.定义严格$2$-范畴$\Path_{(2)}[Q]$如下
+    \begin{itemize}
+        \item $\Path_{(2)}[Q]$以$Q$中的元素作为对象.
+        \item 给定$x,y\in Q$,令$\iHom_{\Path_{(2)}[Q]}(x,y)$为所有以$x$为最小元以及$y$为最大元的有限全序子集
+        \[
+            S = \{x = x_0<x_1<\cdots<x_n = y\}\subset Q
+        \]
+        视偏序集$\iHom_{\Path_{(2)}[Q]}(x,y)$为一个范畴,若$S\subset T$则存在唯一的态射$S \Rightarrow T$,不难发现这是一个偏序集,并且以反向包含作为偏序.
+        \item 对于每个元素$x\in Q$,恒等1-态射$\identity_x\in \iHom_{\Path[Q]_{(2)}}(x,x)$由单点$\{x\}$给出(可以视为以$x$为最大元和最小元的全序子集).
+        \item 对于元素$x,y,z\in Q$,可以定义复合
+        \begin{align*}
+            \circ : \iHom_{\Path_{(2)}[Q]}(y,z)\times \iHom_{\Path_{(2)}[Q]}(x,y) &\to \iHom_{\Path_{(2)}[Q]}(x,z)\\
+            (S,T) &\mapsto S\cup T
+        \end{align*}
+        称$\Path_{(2)}[Q]$为$Q$的道路$2$-范畴.
+    \end{itemize}
+\end{definition}
+\begin{remark}[与道路范畴的对比]
+    令$(Q,\leq)$为偏序集,令$\Path[Q]$为严格$2$-范畴$\Path_{(2)}[Q]$的底范畴,它可以被具体写为
+    \begin{itemize}
+        \item $\Path[Q]$以$Q$中的元素作为对象.
+        \item 若$x$和$y$是$Q$中的元素,则$\Path[Q]$中从$x$到$y$的态射为一个以$x$为最小元以及$y$为最大元的有限全序子集
+        \[
+            S = \{x= x_0<x_1<\cdots < x_n = y\}\subset Q
+        \]
+    \end{itemize}
+\end{remark}
+严格$2$-范畴可以视为单纯范畴,这就让我们把$[n]$变成一个单纯范畴.
+\begin{example}
+    令$\mathcal{C}$为严格$2$-范畴.则可以将$\mathcal{C}$转化为单纯范畴$\mathcal{C}_{\Delta}$
+    \begin{itemize}
+        \item $\mathcal{C}_{\Delta}$的对象为$\mathcal{C}$的对象.
+        \item 对于每一对对象$X,Y\in \operatorname{Ob} (\mathcal{C}_{\Delta}) = \operatorname{Ob} (\mathcal{C})$,单纯集$\Hom_{\mathcal{C}_{\Delta}}(X,Y)_{\bullet}$定义为范畴$\iHom(X,Y)$的脉.
+        \item 对于三元组$X,Y,Z\in \operatorname{Ob}(\mathcal{C}_{\Delta}) = \operatorname{Ob}(\mathcal{C})$,定义复合
+        \[
+            \Hom_{\mathcal{C}_{\Delta}}(Y,Z)_{\bullet} \times \Hom_{\mathcal{C}_{\Delta}}(X,Y)_{\bullet} \to \Hom_{\mathcal{C}_{\Delta}}(X,Z)_{\bullet} 
+        \]
+        由2-范畴中复合的脉给出.
+    \end{itemize}
+\end{example}
+接下来给出单纯道路范畴.
+\begin{definition}[单纯道路范畴]\label{定义:单纯道路范畴}
+    令$(Q,\leq)$为偏序集, $\Path_{(2)}[Q]$为其对应的道路$2$-范畴.令$\Path[Q]_{\Delta}$为从$\Path_{(2)}[Q]$中所得到的单纯范畴.在不引起歧义的情况下简写为$\Path[Q]$,特别地,当$Q = [n]$时所得到的$\Path [[n]]$简写为$\Path[n]$.
+\end{definition}
+\begin{remark}\label{注记:单纯道路范畴}
+    令$Q$为偏序集.单纯范畴$\Path[Q]$其实可以视为$Q$的一个``加粗版本''.对于每一对$x,y\in Q$,单纯集$\Hom_{\Path[Q]}(x,y)_{\bullet}$在$x\not \leq y$时为空.若$x\leq y$(由于此时$\Hom_{\Path[Q]}(x,y)_{\bullet}$为偏序集的脉,并且偏序集具有极大元$\{x,y\}$)是弱可缩的(将在后文定义).特别地,我们有单纯函子$\pi : \Path[Q]\to cQ$,在对象是恒等态射.
+\end{remark}
+读者不难发现,单纯道路范畴也给态射的复合添上了同伦色彩,因此所得到的脉应当称为同伦脉.
+\begin{definition}[同伦脉]
+    令$\mathcal{C}$为单纯范畴.令$\nerve^{\operatorname{hc}}(\mathcal{C})$为如下构造的单纯集
+    \[
+        ([n]\in \Delta^{\opposite})\mapsto \Hom_{\Cat_{\Delta}}(\Path[n],\mathcal{C})=\{\text{单纯函子}\Path[n]\to\mathcal{C}\}
+    \]
+    称$\nerve^{\operatorname{hc}}\mathcal{C}$为同伦脉(或单纯脉).
+\end{definition}
+不难发现同伦脉给出了一个从$\Cat_{\Delta}$到单纯集$\operatorname{sSet}$的函子.
+\begin{remark}[同伦脉与脉的对比]
+    令$\mathcal{C}$为单纯范畴,且$\mathcal{C}_0$表示底范畴.对于每个偏序集$Q$,则注记\ref{注记:单纯道路范畴}中$\pi : \Path[Q] \to Q$诱导了一个单射
+    \[
+        \{\text{一般函子}Q \to \mathcal{C}_0\} \hookrightarrow \{\text{单纯函子}\Path[Q]\to\mathcal{C}\}
+    \]
+    将这一构造限制在$Q=[n]$的情况,得到单射$\nerve\mathcal{C}_0 \to \nerve^{\operatorname{hc}}\mathcal{C}$.
+\end{remark}
+接下来探索同伦脉的若干性质,首先引入一些定义.
+\begin{definition}
+    令$X$是单纯集, $\mathcal{C}$是单纯范畴.考虑单纯集之间的态射$u: X \to \nerve^{\operatorname{hc}}\mathcal{C}$,若对于任意单纯范畴$\mathcal{D}$, $u$都能诱导一个双射
+    \[
+        \{\text{单纯函子}F :\mathcal{C}\to\mathcal{D}\} \xleftrightarrow{1:1} \Hom_{\operatorname{sSet}}(X,\nerve^{\operatorname{hc}}\mathcal{D})
+    \]
+    则称$u$将$\mathcal{C}$表示为$X$的道路范畴.
+\end{definition}
+\begin{notation}
+    令$X$为单纯集.由定义立刻得知若存在$u : S \to \nerve^{\operatorname{hc}}\mathcal{C}$使得$\mathcal{C}$表示为$X$的道路范畴,则单纯范畴$\mathcal{C}$(以及态射$u$)在同构意义以及函子性上依赖于$X$.为了强调这种依赖性,我们使用$\Path[X]$来代替$\mathcal{C}$,并且称$\Path[X]$为单纯集$X$的道路范畴.
+\end{notation}
+\begin{proposition}
+    令$X$为单纯集.则存在单纯范畴$\mathcal{C}$以及单纯集之间的态射$u : X \to \nerve^{\operatorname{hc}}\mathcal{C}$将$\mathcal{C}$表为$X$的道路范畴.
+\end{proposition}
+\begin{proof}
+    对于每个单纯集$X$,考虑其广义几何实现
+    \[
+        |X|^{\Path[-]} = \underset{\Delta^n \to X}{\indlim}\Path[n]
+    \]
+    此处$\Path[-]$表示由定义\ref{定义:单纯道路范畴}所给出的$\Cat_{\Delta}$的余单形对象,由于$\Cat_{\Delta}$是余完备的,因此自然存在.
+\end{proof}
+\begin{corollary}
+    上文定义的$\Path[-]$为$\nerve^{\operatorname{hc}}:\Cat_{\Delta} \to \operatorname{sSet}$的右伴随,即有伴随对
+        \[\begin{tikzcd}
+	{\operatorname{sSet}} && {\operatorname{Cat}_{\Delta}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Path[-]}", bend left=60, from=1-1, to=1-3]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\nerve^{\operatorname{hc}}}", bend left=60, from=1-3, to=1-1]
+	\arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=0, to=1]
+\end{tikzcd}\]
+\end{corollary}
+\begin{example}
+    取$\Path[n]$为$[n]$所对应的单纯道路范畴,对于任意单纯范畴$\mathcal{C}$我们有典范双射
+    \[
+        \Hom_{\Cat_{\Delta}}(\Path[n],\mathcal{C})\simeq \nerve_n^{\operatorname{hc}}(\mathcal{C})\simeq \Hom_{\operatorname{sSet}}(\Delta^n,\nerve^{\operatorname{hc}}\mathcal{C})
+    \]
+    这说明$\Path[n]$就是$\Delta^n$对应的道路范畴.
+\end{example}
+\begin{definition}[局部Kan]
+    设$\mathcal{C}$为单纯范畴,若对每一对对象$X,Y\in \mathcal{C}$都有$\Hom_{\mathcal{C}}(X,Y)_{\bullet}$是Kan复形,则称$\mathcal{C}$是局部Kan的.
+\end{definition}
+\begin{theorem}\label{定理:同伦脉为无穷范畴}
+    令$\mathcal{C}$为单纯范畴,若它是局部Kan的,则它的同伦脉$\nerve^{\operatorname{hc}}$为$\infty$-范畴.
+\end{theorem}
+\begin{proof}
+    见\parencite[\href{https://kerodon.net/tag/00LH}{00LH}]{Kerodon} 
+\end{proof}

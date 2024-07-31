@@ -1,0 +1,146 @@
+\chapter*{绪论}
+\begin{convention}\label{约定:链复形范畴}
+    在本文中,对于加性范畴$\mathcal{A}$,我们总是考虑其上的链复形范畴$\Chain(\mathcal{A})$连同其子范畴
+    \[
+    \Chain_{\geq 0}(\mathcal{A}) := \{A = (A_n,\partial_n)_{n\in \Z}:\text{链复形}, \forall n <0, A_n = 0\}
+    \]
+    其中$\partial_n = \partial_n^A : A_n \to A_{n-1}$(这不同于一般同调代数中喜欢使用(上链)复形结构,请读着注意.
+\end{convention}
+\section{为何需要研究$\infty$-范畴}
+直接说我们需要研究范畴上的同伦信息似乎有点无趣,所以我将其留到下一小节,这一小节我们还是来讨论一些同调代数上的事情,当然也没有那么同调代数,这里只是作为背景与动机而存在的东西.首先让我们回顾一下导出范畴\footnote{处于篇幅的考量,我们将在后文讲述稳定$\infty$-范畴时再回顾三角范畴等定义,此处只是粗略地回顾.}.\\
+我们知道对于一个``好''的 Abel 范畴$\mathcal{A}$来说,导出范畴可以由以下几个步骤来构造:
+\[
+    \mathcal{A} \rightsquigarrow \Chain(\mathcal{A}) \rightsquigarrow \hCh(\mathcal{A}) \rightsquigarrow D(\mathcal{A})
+\]
+其中$\Chain(\mathcal{A})$是$\mathcal{A}$中链复形所构成的范畴, $\hCh(\mathcal{A})$是同伦范畴而$D(\mathcal{A})$是导出范畴.在从$\Chain(\mathcal{A})$到$\hCh(\mathcal{A})$的过程中,我们模掉了同伦关系(换句话说, $\hCh(\mathcal{A})$ 中态射是链复形间态射的同伦类)而后从$\hCh(\mathcal{A})$到$D(\mathcal{A})$这一步骤中,我们通过局部化形式地添入拟同构的逆,或等价地说,形式地将零调复形零化.虽然第二步事实上并没有问题,但在第一步中我们丢失了太多信息,以至于一般的导出范畴结构具有以下问题:
+\begin{enumerate}
+    \item 就三角范畴公理而言,任意态射$f:X \to Y$应当都能扩充为形如$X \xrightarrow{f} Y \to Z \to TX$的好三角,这般好三角精确到同构是唯一的,但不是代数学中习见的``精确到唯一同构''.
+    \item $\hCh(\mathcal{A})$不是 Abel 范畴(比如取$\mathcal{A} = \cate{Ab}$,考虑态射$f: \Z/p^2\Z \twoheadrightarrow \Z/p\Z$,其中$p$为素数,具体见\href{https://mathoverflow.net/questions/15658/how-do-i-know-the-derived-category-is-not-abelian/15662#15662}{MathOverflow}),它缺少核与余核, $\indlim$以及$\prolim$的操作寸步难行;映射锥虽然能为此提供同伦意义的替代品.但是它在导出范畴的唯一性却成问题.
+    \item 导出范畴层次的导出函子尽管有清晰的定义,但是缺乏简单的刻画.
+\end{enumerate}
+问题的根源就在于构造$D(\mathcal{A})$时粗暴地抹除了某种关系.因此,我们需要一种比导出范畴更加高阶,兴许更加自然的构造来进行弥补,而导出范畴应当是其投下的一道影子.\\
+
+以下为导出$\infty$-范畴内容(读者若看不懂可以先看后文,或者我可以继续修改增加通俗度):\\
+
+之前的讨论提示我们,我们并不应该在严格的同构上进行工作,而是在某种等价上进行工作,但是这种等价实际上有很多个,它并不是性质而是一个结构,而我们知道映射锥可以充当核与余核的某种同伦版本,并且对于三角范畴可以定义出同伦极限$\holim$以及同伦余极限$\hocolim$来代替,这或许在提示我们应该使用同伦的角度来解决这些问题,也就是说我们应该以一种更合理的角度看$D(\mathcal{A})$,我们知道导出范畴的定义其实等价于局部化$\Chain(\mathcal{A})[W^{-1}]$,其中$W$表示全体拟同构构成的类,而导出范畴所出现的问题也提示着我们简单粗暴的局部化只能体现$1$-态射级别的信息,而很多时候我们需要关心一些高阶的信息.\\
+
+为了很好的编码这些结构,我们们需要考虑范畴上的同伦结构,也就是说一些高阶态射,一般而言,我们考虑的是 $(\infty,1)$-范畴(亦即$\infty$-范畴)的情况,也就是说只有$1$-阶态射不可逆,而高阶态射都是可逆的情况,我们现在需要找到一套合理的理论去编码它(本文将会介绍目前最普遍接受的编码方式之一,即拟范畴,简称$\infty$-范畴),然后在其中找到$\Chain(A)[W^{-1}]$的对应物.\\
+
+事实上,对于链复形我们有一种很好的编码方式---微分分次结构.在后文(\ref{微分分次范畴}一节)我们将会提到微分分次范畴(定义 \ref{定义:微分分次范畴}.)这一结构,不难发现$\Chain(\mathcal{A})$带有自然地微分分次结构,并且对于微分分次范畴,我们有一种很方便的方式(当然这并不是唯一的结构)将其展成$\infty$-范畴,即微分分次脉(或简称dg-脉)记作$\nerve^{\operatorname{dg}}$,可以证明对于微分分次范畴$\mathcal{C}$,其dg-脉$\nerve^{\operatorname{dg}}\mathcal{C}$是$\infty$-范畴,这样就可以把$\Chain(\mathcal{A})$变为$\infty$-范畴而不损失信息.如果我们定义出微分分次范畴上的同伦范畴结构,将会发现有以下命题成立:
+\begin{proposition*}
+    令$\mathcal{C}$为微分分次范畴, $\nerve^{\operatorname{dg}}\mathcal{C}$为其微分分次脉.则同伦范畴$h\nerve^{\operatorname{dg}}\mathcal{C}$典范同构于微分分次范畴的同伦范畴$h\mathcal{C}$.
+\end{proposition*}
+因此, $\hCh(\mathcal{A})$ 实际上可以被$\nerve^{\operatorname{dg}}\Chain(\mathcal{A})$的同伦范畴所替代,这也就给同伦范畴一个$\infty$-范畴上的对应,这也说明我们确实可以转变思路,从模去同伦变为增加高阶的态射来解释同伦.\\
+而后,回忆到,在同调代数中我们有以下命题.
+\begin{proposition*}
+    设$\mathcal{A}$为 Abel 范畴并且具有足够的投射对象,则有$\hCh^-(\mathcal{A}_{\operatorname{proj}})\rightiso D^-(\mathcal{A})$为范畴等价,其中$\mathcal{A}_{\operatorname{proj}}$是投射对象构成的全子范畴.
+\end{proposition*}
+\begin{remark*}
+    当然,由于我们所使用的是链复形,因此相应的符号与上同调的版本需要发生改变,以$D^{-}(\mathcal{A})$为此处$D^-(\mathcal{A})$表示由在$n \ll 0$时使得$H_nX = 0$链复形$X_*$所构成的全子范畴,当然可以对偶地得到$+$的情况.
+\end{remark*}
+现在我们使用这一命题来构造导出$\infty$-范畴,这相当于说我们需要构造$\hCh^-(\mathcal{A}_{\operatorname{proj}})$,令$\Chain^-(\mathcal{A})$表示由所有在$n \ll 0$时$X_n \simeq 0$的$X_*$所构成的$\Chain(\mathcal{A})$的全子范畴.
+\begin{definition*}[导出$\infty$-范畴]
+    令$\mathcal{A}$为具有足够投射对象的 Abel 范畴,称$\mathcal{D}^-(\mathcal{A}) := \nerve^{\operatorname{dg}}\Chain^-(\mathcal{A}_{\operatorname{proj}})$为$\mathcal{A}$的导出$\infty$-范畴.
+\end{definition*}
+\begin{remark*}
+    导出$\infty$-范畴$\mathcal{D}^-(\mathcal{A})$的同伦范畴$h\mathcal{D}^-(\mathcal{A})$可以具有以下刻画:对象为$\mathcal{A}$中投射对象构成的(右有界的)链复形,并且态射取为链态射的同伦类,不难发现此时$h\mathcal{D}^-(\mathcal{A})$就对应于$D^-(\mathcal{A})$.
+\end{remark*}
+此外,它也具有变体
+\begin{definition*}[$\mathcal{D}^+(\mathcal{A})$]
+    令$\mathcal{A}$为具有足够内射对象的 Abel 范畴,称$\mathcal{D}^+(\mathcal{A}) := \nerve^{\operatorname{dg}}\Chain^+(\mathcal{A}_{\operatorname{inj}})$,此处$\mathcal{A}_{\operatorname{inj}}$表示由$\mathcal{A}$中内射对象所生成的全子范畴,有典范的范畴等价$\mathcal{D}^+(\mathcal{A})^{\opposite} \simeq \mathcal{D}^-(\mathcal{A}^{\opposite})$.
+\end{definition*}
+当然,这只是对于导出范畴的一种描述方式,我们当然可以得到另一种描述方式:即往$\nerve^{\operatorname{dg}} \Chain^-(\mathcal{A})$中添加拟同构的逆.可以得到
+\begin{theorem*}
+    令$\mathcal{A}$为具有足够投射对象的 Abel 范畴,令 $\bold{A} = \Chain^-(\mathcal{A})$ 且 $W$ 为链复形间拟同构(即所有诱导同调群同构的态射)构成的类,则有$\infty$-范畴等价
+    \[
+        \bold{A}[W^{-1}]\simeq \mathcal{D}^-(\mathcal{A}).
+    \]
+\end{theorem*}
+这也佐证了导出$\infty$-范畴定义的合理性.\\
+
+当$\mathcal{A}$为 Grothendieck Abel 范畴时,我们可以构建以下模型结构
+\begin{proposition*}
+    令$\mathcal{A}$为 Grothendieck Abel 范畴,则$\Chain(\mathcal{A})$具有内射模型结构:
+    \begin{enumerate}
+        \item[Cof] 链复形之间的映射$f: M_* \to N_*$是余纤维化当且仅当对于每个整数$k$,其诱导的映射$f_k : M_k \to N_k$为$\mathcal{A}$中的单射,全体余纤维化记作$\mathsf{Cof}$.
+        \item[W] $W = \{\text{链复形之间的拟同构}\}$.
+        \item[Fib] $\mathsf{Fib} = \chi_R(\mathsf{Cof}\cap W)$,其中$\chi_R$表示具有右提升性质的态射构成的类.
+    \end{enumerate}
+\end{proposition*}
+此时,可以得到 Grothendieck Abel 范畴上的导出$\infty$-范畴,其定义如下
+\begin{definition*}
+    令$\mathcal{A}$为 Grothendieck Abel 范畴,令$\Chain(\mathcal{A})^{o}$为$\Chain(\mathcal{A})$中由纤维性对象(自动余纤维性,因此是双纤维性对象)构成的全子范畴.称$\mathcal{D}(\mathcal{A}) := \nerve^{\operatorname{dg}}\Chain(\mathcal{A})^o$为$\mathcal{A}$的导出$\infty$-范畴.
+\end{definition*}
+而本文除此以外,还需要讨论导出$\infty$-范畴与稳定 $\infty$-范畴之间的关系,导出$\infty$-范畴与一般的导出范畴之间的差异以及\textbf{将导出$\infty$-范畴视为层}这三点,具体内容请见正文(还没写到)分解.
+\section{同伦与$\infty$-范畴}
+设$\mathcal{C}$为范畴,一般来说,范畴$\mathcal{C}$中的态射$f : X \to Y$会反映出对象$X$与$Y$间的关系,在某些情况下,这些关系本身就可以称为研究的基本对象,并且可以有效地构成一个范畴.
+\begin{example}\label{例:同伦}
+    \begin{enumerate}
+        \item 考虑群范畴$\cate{Grp}$.在群论中,我们经常关心至多相差一个共轭的群同态.两个群同态间的共轭关系可以写为:对两个群$G,H\in \cate{Grp}$,存在一个范畴$\iHom(G,H)$, 其对象为从$\Hom_{\cate{Grp}}(G,H)$,对象$f$到$f'$的态射为使得对于任意$g\in G$满足$hf(g)h^{-1} = f'(g)$的元素$h\in H$.注意到两个群同态$f,f' : G \to H$是共轭的当且仅当它们视为$\iHom(G,H)$中的元素时是同构的.
+        \item 令$X,Y$为拓扑空间且$f_0,f_1 : X\to Y$为连续映射.在代数拓扑中,我们常常关心拓扑空间范畴的同伦范畴$\cate{hTop}$而非拓扑空间范畴$\cate{Top}$.在很多情况下,常常更进一步的考虑范畴$\iHom(X,Y)$,其对象为连续映射$f : X \to Y$而态射为同伦类.
+        \item 给定范畴$\mathcal{C}$与$\mathcal{D}$,所有从$\mathcal{C}$到$\mathcal{D}$的函子自动构成函子范畴$\Fct(\mathcal{C},\mathcal{D})$,其对象为全体函子,而态射为它们之间的自然变换.
+    \end{enumerate}
+\end{example}
+在这些例子中,我们所感兴趣的对象自动构成一个称为2-范畴(或称双范畴)的结构:不局限于考虑对象以及对象间的态射,还考虑一种态射间的关系,我们将其称为$2$-态射.高阶范畴论考虑的则是$n$-范畴,即在$2$-态射之后再加上$k$-态射,其中$k \leq n$.最终,在某种极限之下,我们希望能够得到一个$\infty$-范畴的理论,其包含所有阶的态射.
+\begin{example}[群胚]\label{Exp:群胚}
+    令$X$为拓扑空间且$0 \leq n \leq \infty$.可以通过以下方式萃取出一个$n$-范畴$\pi_{\leq n} X$. 
+    \begin{itemize}
+        \item 对象:$X$中的点.
+        \item 态射:若$x,y\in X$,则从$x$到$y$的态射为一条以$x$为起点, $y$为终点的道路$[0,1]\to X$.
+        \item 2-态射:道路的同伦.
+        \item 3-态射:同伦的同伦,
+        \item $\cdots$
+    \end{itemize}
+    最终,若$n < \infty$则两个$n$-态射可视为一致的当且仅当它们互相同伦(即商掉$>n$的同伦关系).\\
+    若$n = 0$则$\pi_{\leq n}X = \pi_0(X)$为$X$的连通分支构成的集合.若$n = 1$则得到$X$的基本群胚.因此$\pi_{\leq n}X$称为$X$的基本$n$-群胚.由于每个$k$-态射均可逆,它被称为$n$-群胚(而不仅仅为$n$-范畴).
+\end{example}
+接下来从2-范畴的构造开始逐步构建高阶范畴.我们可以将2-范畴定义为``充实于$\cate{Cat}$的范畴''.换句话说,我们考虑一族对象且任意两个对象$A$, $B$间的态射对象为范畴$\iHom(A,B)$(即态射构成的范畴).此外,有复合函子$c_{ABC}: \iHom(B,C)\times \iHom(A,B) \to \iHom(A,C)$以及恒等态射$\identity_A: \one \to \iHom(A,A)$.使得对于任意四元组$(A,B,C,D)$,以下图表
+\[\begin{tikzcd}
+	{(\iHom(C,D)\times\iHom(B,C))\times\iHom(A,B)} & {\iHom(C,D)\times(\iHom(B,C)\times\iHom(A,B))} \\
+	{\iHom(B,D)\times \iHom(A,B)} & {\iHom(C,D) \times \iHom(A,C)} \\
+	{\iHom(A,D)}
+	\arrow["\sim", from=1-1, to=1-2]
+	\arrow["{c_{BCD}\times \identity_{\iHom(A,B)}}"', from=1-1, to=2-1]
+	\arrow["{\identity_{\iHom(C,D)}\times c_{ABC}}", from=1-2, to=2-2]
+	\arrow["{c_{ABD}}"', from=2-1, to=3-1]
+	\arrow["{c_{ACD}}", curve={height=-18pt}, from=2-2, to=3-1]
+\end{tikzcd}\]
+交换,这相当于说复合满足结合律
+\[c_{ABD}\circ (c_{BCD}\times \identity) = c_{ACD}\circ (\identity \times c_{ABC}).\]
+此外,对于恒等态射要求图表
+\[\begin{tikzcd}
+	{\iHom(B,B)\times \iHom(A,B)} && {\iHom(A,B)\times \iHom(A,A)} \\
+	{\one \times \iHom(A,B)} & {\iHom(A,B)} & {\iHom(A,B)\times \one }
+	\arrow["{c_{ABB}}", from=1-1, to=2-2]
+	\arrow["{c_{AAB}}"', from=1-3, to=2-2]
+	\arrow["{\identity_B \times \identity_{\iHom(A,B)}}", from=2-1, to=1-1]
+	\arrow[from=2-1, to=2-2]
+	\arrow["{\identity_{\iHom(A,B)} \times \identity_{A}}"', from=2-3, to=1-3]
+	\arrow[from=2-3, to=2-2]
+\end{tikzcd}\]
+也交换(相当于说任何态射复合恒等态射为其自身).这就给出了严格$2$-范畴的定义.\\
+此时,我们应当发现严格2-范畴的定义违背了范畴论的一条哲学性的基本原则:范畴视角的特色正在于重视关联甚于数学对象本身, 并以同构代替严格等式, 最明显的例证是代数学中无所不在的泛性质.因此我们不应当仅仅满足于两个函子$F$, $F'$间的严格相等,应该尝试以同构的角度去解释它.这意味着前文的结合律应当采用附加结构:一族同构
+\[
+\gamma_{ABCD}:c_{ABD}\circ (c_{BCD}\times \identity) \simeq c_{ACD}\circ (\identity \times c_{ABC}).
+\]
+这将原本的严格幺半范畴结构转为一般的幺半范畴结构,我们将其称为2-范畴.通过幺半范畴的融贯性定理(\cite{李文威卷一}定理 3.2.2.)可以得知每个2-范畴均等价于某个严格2-范畴.\\
+
+我们可以类似地定义出严格3-范畴以及一般的3-范畴,这只需要把两个对象$A,B$之间的态射对象定义为$\iHom(A,B)$,它是一个严格2-范畴且结合律要求为相等,而一般的3-范畴只需要$\iHom(A,B)$为一般的2-范畴,结合律也只要求为2-同构.这种情况下,我们发现3-范畴无法与严格3-范畴等价.\\
+
+并且,这两种定义方式都具有极为严重的缺陷.首先,一般的3-范畴的显式表达非常复杂.而另一方面,一般的3-范畴无法等价于严格3-范畴.举个例子, 2-球$\bbS^2$的3-群胚不能使用严格3-范畴的语言描述.在4-范畴以及更高的范畴上,这个问题就愈发严重.\\
+
+好消息是,如果我们把注意力集中在$\infty$-范畴之上,并且要求其高阶态射均可逆,那么这些问题将大大简化.从这一点出发,我们将使用名词$(\infty,n)$-范畴表示$\infty$-范畴中在$k>n$时$k$-态射均可逆的范畴.如例\ref{Exp:群胚}所示的无穷范畴均为$(\infty,0)$-范畴.反过来,每个$(\infty,0)$-范畴均可写为某个拓扑空间$X$的$\pi_{\leq \infty}X$的形式(这是高阶范畴论中普遍接受的准则).此外, $\infty$-群胚$\pi_{\leq \infty} X$记录了$X$中所有的同伦型.换句话说$(\infty,0)$-范畴已经从另一个角度进行了广泛观察:它们在同伦论意义下就是某种``空间'',并且可以使用很多等价的方式来描述它们(比如说单纯集或CW复形).
+\begin{notation}
+    称$(\infty,0)$-范畴为无穷群胚, $(\infty,2)$-范畴为$\infty$-双范畴.除非另有说明,``$\infty$-范畴''将指代$(\infty,1)$-范畴.
+\end{notation}
+本讲的主题是对于$(\infty,1)$-范畴有一个粗略的认知,因此$(\infty,n)$-范畴将不会是我们所关心的重点.\\
+
+由前文2-范畴的定义来看,我们可以使用充实范畴的方式来研究$\infty$-范畴,即一个$\infty$-范畴$\mathcal{C}$由一族对象以及对于每一对对象$X,Y\in \Obj(\mathcal{C})$都有无穷群胚$\iHom_{\mathcal{C}}(X,Y)$,将这些无穷群胚转化为拓扑空间并且配备一个结合律.正如前文一般,我们面对两个选择:是否应该要求结合律严格相等?好消息是,答案是无关紧要:正如2-范畴一般,任何带有同伦相容的结合律乘法可以被替换为一个带有严格结合律的等价的$\infty$-范畴.
+\begin{definition}
+    拓扑范畴是指充实于$\cate{CGWH}$(紧生成弱Hausdorff空间)的范畴,拓扑范畴所构成的范畴记为$\cate{Cat}_{\cate{top}}$.
+\end{definition}
+更精确地来说,一个拓扑范畴$\mathcal{C}$由以下资料组成:一族对象以及对于每对$X,Y\in \Obj(\mathcal{C})$都配备紧生成弱Hausdorff的拓扑空间$\iHom_{\mathcal{C}}(X,Y)$.并且这些映射空间配备由连续映射给出的结合律
+\[
+\iHom_{\mathcal{C}}(X_{n-1},X_n)\times \iHom_{\mathcal{C}}(X_{n-2},X_{n-1})\times \cdots \times \iHom_{\mathcal{C}}(X_0,X_1) \to \iHom_{\mathcal{C}}(X_0,X_n)
+\]
+尽管在众多对于高阶范畴论的形式化中,使用拓扑范畴的方式是最快最透明的,但是它也是实操起来最困难的方法之一:许多高阶范畴的基本结构自然产生于态射的结合只与同伦(相容)有关的$(\infty,1)$-范畴.为了将问题留在拓扑范畴的领域中,我们需要将这些结构``拉直''成严格的结合律.笔记讲述Boardman-Vogt\cite{BV2006}所开创弱Kan复形理论.它经由Joyal之手推广\cite{joyal2008notes}的拟范畴理论\footnote{当然这里抄自\cite{HTT}}.我们将直接称其为$\infty$-范畴.

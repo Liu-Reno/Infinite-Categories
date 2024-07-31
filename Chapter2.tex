@@ -1,0 +1,312 @@
+\chapter{$\infty$-范畴}
+为了说明一个$\infty$-范畴$\mathcal{C}$应当是什么样的,不妨考虑两个极端的情况.若$\mathcal{C}$中的每个态射均可逆,则$\mathcal{C}$等价于一个拓扑空间$X$的基本$\infty$-群胚.此时高阶范畴论约化为经典的同伦论.而若$\mathcal{C}$在$n>1$时没有非平凡$n$-态射,此时$\mathcal{C}$等价于一般的范畴.因此,一般情况应该抓住这二者共同的特征,即我们需要一类表现形式既像范畴又像拓扑空间的对象,而这就是单纯集.
+
+以下为无穷范畴,Kan复形,单纯集,拓扑空间之间的关系.
+\[\begin{tikzcd}
+	{\{\text{Categories}\}} & {\{\infty\text{-Categories}\}} & {\{\text{Kan Complexes}\}} \\
+	& {\cate{sSet}} & {\cate{Top}}
+	\arrow["{N_{\bullet}}", hook, from=1-1, to=1-2]
+	\arrow["\subset"{marking, allow upside down}, draw=none, from=1-2, to=2-2]
+	\arrow["\subset"{marking, allow upside down}, draw=none, from=1-3, to=1-2]
+	\arrow["{\Sing_{\bullet}}", from=2-3, to=1-3]
+\end{tikzcd}\]
+本节来讲述Kan复形以及拟范畴理论,在此之前请回忆在导言中所提到过``我们需要一类表现形式既像范畴又像拓扑空间的对象.''这将在后文描述出拟范畴时起到巨大作用.
+\section{Kan 复形与 $\infty$-范畴}
+\begin{definition}[Kan复形]
+    令$X$为一个单纯集.若所有的尖角均可填充,即对于$0\leq i\leq n$以下图表
+    \[\begin{tikzcd}
+	{\Lambda_i^n} & X \\
+	{\Delta^n}
+	\arrow[from=1-1, to=1-2]
+	\arrow[hook, from=1-1, to=2-1]
+	\arrow[dashed, from=2-1, to=1-2]
+    \end{tikzcd}\]
+    交换.则称$X$为Kan复形.
+\end{definition}
+接下来我们展现单纯集的便利性,根据注记\ref{Rk:外尖角可填充为群胚},可知当$X$是Kan复形时,它会作为一个$\infty$-群胚,而当其满足内尖角填充性质时,它可以根据命题\ref{Pro:脉的刻画}来变成一般的范畴.基于这一观察,我们希望可以得到一些更合适的单纯集来作为一般的$\infty$-范畴的模型.\\
+
+首先考虑任意一个单纯集$X$.我们可以尝试着将$X$想象成一个范畴,首先$X$中的点(即$X_0$的元素)就是其对象,态射则为$X$中的边($X_1$中的对象).一个$2$-单形$\sigma : \Delta^2 \to X$应当被视为图表
+\[\begin{tikzcd}
+	& B \\
+	A && C
+	\arrow["\psi", from=1-2, to=2-3]
+	\arrow["\phi", from=2-1, to=1-2]
+	\arrow["\theta"', from=2-1, to=2-3]
+\end{tikzcd}\]
+以及$\theta$与$\psi \circ \phi$的同伦,这将被视为图表的``交换性''(在高阶范畴论中,交换性不仅仅是一个条件:同伦$\theta \simeq \psi \circ \phi$是额外的资料.)高阶单形可以被认为反映了高阶图表的交换性.\\
+
+坏消息是,对于一般的单纯集$X$,上文的类比就略显乏力.这个问题的本质在于,哪怕我们可以把$X$中的$1$-单形视为态射,但是它们的合成却不总是存在.比如说取$\nerve \mathcal{C}$这个例子,对于态射$\theta : A\to C$,若存在一个$2$-单形$\sigma : \Delta^2 \to X$使得其表现为前文所示的交换图则称$\theta$为态射$\phi : X \to Y$与态射$\psi :Y \to Z$的合成.现在我们需要考虑两个潜在的问题:
+\begin{itemize}
+    \item 所需的$2$-单形$\sigma$不一定总是存在.
+    \item 即使其存在也不一定唯一,即我们可能不止$\theta$一个选择.
+\end{itemize}
+存在性要求$\sigma$总是可以被表述为单纯集$X$的延拓条件.注意到可组合的态射偶$(\psi ,\phi)$事实上确定了一个单纯集间的映射$\Lambda_1^2 \to X$.因此,断言$\sigma$总是能够被表述为一个延拓条件:任意形如$\Lambda_1^2 \to X$的单纯形间的映射都可以延拓到$\Delta^2$上,归结为以下图表
+\[\begin{tikzcd}
+	{\Lambda_1^2} & K \\
+	{\Delta^2}
+	\arrow[from=1-1, to=1-2]
+	\arrow[hook, from=1-1, to=2-1]
+	\arrow[dashed, from=2-1, to=1-2]
+\end{tikzcd}\]
+而$\theta$的唯一性又是另一个问题.事实证明要求$\theta$被唯一确定是不必要(并且不自然)的.为了说明这一点,让我们回到例\ref{Exp:群胚}上.对于群胚中的两条道路,若它们同伦则被认为是等价的.基本群胚中,复合是由道路的合成给出的,即给定道路$q,p : [0,1] \to X$使得$p(0) = x$而$p(1)=q(0) = y$,且$q(1) = z$,则$p$与$q$的复合应当为一条连接$x$与$z$的道路.有很多方法得到这样连接$p$与$q$的道路.最简单的方式无非是
+\[
+r(t) = \left\{\begin{array}{cc}
+     p(2t)&\text{若}0\leq t \leq \frac{1}{2}  \\
+     q(2t-1)&\text{若}\frac{1}{2}\leq t\leq 1. 
+\end{array}\right.
+\]
+然而,同样可以使用以下方式进行合成
+\[
+r'(t) = \left\{\begin{array}{cc}
+   p(3t)  & \text{若} 0\leq t \leq \frac{1}{3} \\
+   q(\frac{3t-1}{2})& \text{若} \frac{1}{3}\leq t\leq 1.
+\end{array}\right.
+\]
+由于$r$与$r'$是同伦的,因此这并不妨碍选取.\\
+但是从$2$-范畴的角度上进行考虑时,这个问题就变得复杂了.考虑拓扑空间$E$的基本2-群胚,为使得态射的合成有明确的定义,我们必须选择一个等式来代替全部等式.此外,这并没有一个特别合适的选择.举个例子,前文所述的两个等式都无法表示严格的结合律.\\
+这个教训给我们带来了一个启发:在高阶范畴处,我们不应该要求两个态射具有唯一确定的组合(即唯一的填充).在基本群胚的例子中,道路的复合有许多种选择,但是它们是相互同伦的.此外,根据高阶范畴论的哲学原理:任何与复合同伦的道路都应当与复合本身一样好.从这一点出发,我们应当将复合视为一种关系而非函数,这在单纯集的形式中可以很好地得到展现:一个2-单形$\sigma :\Delta^2 \to X$应当被视为$d_0(\sigma) \circ d_2(\sigma)$同伦于$d_1(\sigma)$的``证据''.\\
+
+那么具体是什么样的条件才能够保证一个单纯集$X$表现得像一个更高阶的范畴呢?基于前文的讨论,我们发现这只需要让$X$满足对于尖角$\Lambda_i^n$的填充性质,但是根据注记\ref{Rk:外尖角可填充为群胚}以及命题\ref{Pro:脉的刻画}可知只需要对于内尖角进行填充即可.因此得到定义
+\begin{definition}
+    $\infty$-范畴是一个满足以下性质的单纯集$X$:对任意的$0<i<n$以及任意单纯集间的映射$\Lambda_i^n \to X$,都可以填充为$f: \Delta^n \to K$.
+\end{definition}
+\begin{example}
+    前文所述的Kan复形以及脉均为$\infty$-范畴的例子.
+\end{example}
+\section{单纯集的同伦范畴}
+\begin{definition}
+    $\infty$-范畴$X$与$Y$之间的函子即为相应单纯集之间的映射.换句话说, $\infty$-范畴所构成的范畴实际上是$\cate{sSet}$的全子范畴.
+\end{definition}
+由前文关于$\infty$-范畴的讨论可以得到以下概念:
+\begin{definition}[$1$-单形等价]\label{定义:1-单形等价}
+    令$X$为单纯集,称两个从$x$到$y$的$1$-单形$f$和$g$是等价的当且仅当存在一个$2$-单形$\sigma : \Delta^2 \to X$使得
+    \begin{enumerate}
+        \item $\sigma\mid_{\Delta^{\{0,1\}}} = f$.
+        \item $\sigma\mid_{\Delta^{\{0,2\}}} = g$.
+        \item $\sigma\mid_{\Delta^{\{1,2\}}} = \identity_y$.
+    \end{enumerate}
+\end{definition}
+而后我们研究如何将单纯集对应到一般范畴上.
+\begin{definition}[同伦范畴]
+    令$X$为单纯集,定义范畴$hX$为以下资料:
+    \begin{itemize}
+        \item 对象:$X_0$中的元素.
+        \item 态射:$X_1$所生成的态射,对于任意1-单形$f:\Delta^1 \to X$,它都被视为从$d_1(f)$到$d_0(f)$的态射.
+        \item 复合:态射箭的自由复合记为$f\star g$,商去以下关系
+        \begin{enumerate}
+            \item 1-单形$s_0(x)$是$x$的恒等态射.
+            \item 对于每个$2$-单形$\sigma:\Delta^2 \to X$且边界为三元组$(f,g,h)$,则$h= g\star f$/
+            \item 若$f\sim f'$则$f\star g\sim f'\star g$且$g'\star f\sim g'\star f'$.
+        \end{enumerate}
+    \end{itemize}
+    称其为$X$的同伦范畴,同伦范畴中的态射称为同伦类.
+\end{definition}
+
+并且同伦范畴与脉有以下伴随关系
+\begin{proposition}\label{命题:h与N相伴随}
+    具有伴随对$h \dashv \nerve$
+    \[
+        h: \operatorname{sSet} \leftrightarrows \operatorname{Cat}:\nerve
+    \]
+    其中$\nerve$为范畴的脉.且有$h(\nerve(\mathcal{C}))\simeq \mathcal{C}$.
+\end{proposition}
+\begin{proof}\parencite[Proposition 1.2.18]{Land}.其中$h(\nerve(\mathcal{C}))\simeq \mathcal{C}$读者自证不难.\end{proof}
+若$X = \mathcal{C}$为无穷范畴,则可通过同伦范畴来描述其内一些箭头的性质.
+\section{群胚与极大子$\infty$-群胚}
+\begin{definition}[等价]
+    $\infty$-范畴$\mathcal{C}$中的态射$f$若其在$h\mathcal{C}$的像为同构,则称其为等价.
+\end{definition}
+可以通过$2$-单形来描述等价
+\begin{proposition}\label{命题:2-单形描述等价}
+    $\infty$-范畴$\mathcal{C}$中态射$f: x \to y$为等价当且仅当存在$2$-单形$\sigma^l : \Delta^2 \to \mathcal{C}$以及$\sigma^r : \Delta^2 \to \mathcal{C}$使得
+    \[
+    \sigma^l\mid_{\Lambda_0^2} = (f,\identity_x), \sigma^r \mid_{\Lambda_{2}^2} = (f,\identity_y)
+    \]
+\end{proposition}
+此处$(g,h)$的对应方式与推论\ref{推论:尖角变体}无异.
+\begin{proof}
+\begin{enumerate}
+    \item[($\Leftarrow$)] 若$2$-单形$\sigma^l$存在,则$\sigma^l\mid_{\Delta^{\{1,2\}}}$即为$f$在$h\mathcal{C}$中的像的左逆.类似地, $\sigma^r\mid_{\Delta^{\{0,1\}}}$为$f$在$h\mathcal{C}$中的像的右逆,因此$f$在$h\mathcal{C}$中像的左右逆均存在,即$f$为等价.
+    \item[($\Rightarrow$)] 若$f$为等价,则存在态射$g: y \to x$使其同伦类$[g]$为$[f]$的逆,使得$[gf]$与$[fg]$分别为$h\mathcal{C}$中的$\identity_x$和$\identity_y$.在此处只需要考虑$[g\circ f]$至于$[f\circ g]$可以用来类似地构造$\sigma^r$.不难发现存在$\eta : \sigma^2 \to \mathcal{C}$作为$h$与$g\circ f$同伦的依据,而后由于$[gf] = \identity_x$,因此存在$\hat{\eta}: \sigma_2 \to \mathcal{C}$作为$h$与$\identity_x$同伦的依据,此外还有一个自明的$2$-单形(象征$g$与其自身同伦)因此这$3$个$2$-单形构成内尖角$\Lambda_2^3 \to \mathcal{C}$,展现成图表即为
+    \[\begin{tikzcd}
+	& x \\
+	x && y \\
+	&& x
+	\arrow["{\identity_x}", from=2-1, to=1-2]
+	\arrow["f", from=2-1, to=2-3]
+	\arrow["h"', from=2-1, to=3-3]
+	\arrow["g"', from=2-3, to=1-2]
+	\arrow["g", from=2-3, to=3-3]
+	\arrow["{\identity_x}"{description, pos=0.3}, from=3-3, to=1-2]
+    \end{tikzcd}\]
+    由$\mathcal{C}$为$\infty$-范畴的内尖角填充性质即可得到$\sigma^l$的存在性.
+\end{enumerate}
+   
+\end{proof}
+此外,我们可以引入$\infty$-群胚.
+\begin{definition}
+    设$\mathcal{C}$为$\infty$-范畴,若其内所有态射皆为等价,则称其为$\infty$-群胚.
+\end{definition}
+我们可以在$\infty$-范畴内部去定义其子$\infty$-群胚.
+\begin{definition}[极大子$\infty$-群胚]\label{定义:极大子无穷群胚}
+    在一般范畴中极大子群胚由其内所有同构所构成的子范畴,并且记为$\mathcal{C}^{\simeq}\subset \mathcal{C}$.对于$\infty$-范畴$\mathcal{C}$,可以类似定义其极大子$\infty$-群胚为单纯集的拉回
+    \[\begin{tikzcd}
+	{\mathcal{C}^{\simeq}} & {\mathcal{C}} \\
+	{\nerve(h\mathcal{C}^{\simeq})} & {\nerve(h\mathcal{C})}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+    \end{tikzcd}\]
+\end{definition}
+\begin{remark}
+    对于一般范畴$\mathcal{C}$有$\nerve(\mathcal{C})^{\simeq} = \nerve(\mathcal{C}^{\simeq}$这只需要考虑以下交换图
+    \[\begin{tikzcd}
+	{\nerve(\mathcal{C})^{\simeq }} & {\nerve(\mathcal{C})} \\
+	{\nerve(h(\nerve(\mathcal{C}))^{\simeq})} & {\nerve(h(\nerve(\mathcal{C})))} \\
+	{\nerve(\mathcal{C}^{\simeq})} & {\nerve(\mathcal{C})}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+	\arrow["\simeq"', from=2-1, to=3-1]
+	\arrow["\simeq", from=2-2, to=3-2]
+	\arrow[from=3-1, to=3-2]
+    \end{tikzcd}\]
+    由命题\ref{命题:h与N相伴随}可知同构.
+\end{remark}
+不难看出$\infty$-范畴中$n$-单形在极大子$\infty$-群胚中当且仅当其所有边均为等价.
+\begin{proposition}
+    $\infty$-范畴中的极大子$\infty$-群胚确实是一个$\infty$-群胚,并且是$\infty$-范畴所包含的最大$\infty$-群胚.
+\end{proposition}
+\begin{proof}
+    设$\mathcal{C}$为$\infty$-范畴,首先证明$\mathcal{C}^{\simeq}$为一个$\infty$-范畴.这需要证明其满足内尖角填充性质.因此考虑图表
+    \[\begin{tikzcd}
+	{\Lambda_i^n} & {\mathcal{C}^{\simeq}} & {\mathcal{C}} \\
+	{\Delta^n}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow["{\subset }"{marking, allow upside down}, draw=none, from=1-2, to=1-3]
+	\arrow[dashed, from=2-1, to=1-2]
+    \end{tikzcd}\]
+    其中$0<i<n$.由于$\mathcal{C}$为$\infty$-范畴,因此该提升问题在$\mathcal{C}$中必然有解,只需要证明解落在$\mathcal{C}^{\simeq}$中即可,根据$\mathcal{C}^{\simeq}$的定义,这相当于要证明$\Delta^n\to \mathcal{C}$诱导态射
+    \[
+        \Lambda_i^n \to \Delta^n \to \mathcal{C}\to \nerve(h\mathcal{C})
+    \]
+    并且其像包含在$\nerve(h\mathcal{C}^{\simeq})$内.回忆到范畴的脉中$n$-单形由其限制在脉的脊上所决定而每一个内尖角都包含脊,从而断言成立.这也说明$\mathcal{C}^{\simeq}$包含$\mathcal{C}$中所有的等价.特别地,可以得到$h(\mathcal{C}^{\simeq}) = (h\mathcal{C})^{\simeq}$,因此$\mathcal{C}^{\simeq}$是$\infty$-范畴,而且蕴含极大性.
+\end{proof}
+\begin{theorem}[Joyal]
+    设$\mathcal{C}$为$\infty$-范畴.则$\mathcal{C}$为Kan复形当且仅当$h\mathcal{C}$为群胚.
+\end{theorem}
+\begin{proof}
+    见\cite{Joyal}.
+\end{proof}
+\begin{lemma}
+    Kan 复形是 $\infty$-群胚.
+\end{lemma}
+\begin{proof}
+    只需要说明 Kan 复形中任意态射均为等价即可,令$X$为 Kan 复形,由 Kan 复形的定义立刻得到对于任意$f \in X$,考虑$(f,\identity_x)$所构成的外尖角$\Lambda_0^2 \to \mathcal{C}$以及$(f,\identity_y)$所构成的外尖角$\Lambda_2^2 \to \mathcal{C}$都具有填充,因此由命题\ref{命题:2-单形描述等价}可知其为等价.
+\end{proof}
+\begin{fact}\label{事实:群胚}
+    群胚不是群的推广而是集合的推广,这是因为群的$1$-范畴不等价于单对象群胚的$2$-范畴.只有在选定基点后,才能够典范的取出群.当然,群胚这一概念比群更加基本,因为其没有代数结构.\\
+    在高阶范畴论中, $\infty$-群胚可以视为集合一类的最为基础的结构,因为如绪言所说,它对应于拓扑空间,记录了拓扑空间中所有的同伦信息.\\
+    这一事实将会在后文中反复用到.
+\end{fact}
+本节以一些 Kan 复形的性质以及定义作为结尾.
+\begin{definition}[Kan 复形的基本群胚]\label{定义:Kan 复形的基本群胚}
+    当$X$为 Kan 复形时,群胚$hX$称为$X$的基本群胚,记为$\pi_{\leq 1}(X)$.
+\end{definition}
+\begin{example}
+    \begin{itemize}
+        \item Kan 复形在乘积下稳定.
+        \item Kan 复形在余积下稳定,或者说若$S = \bigsqcup_{i\in I}S_i$则$S$为 Kan 复形当且仅当 $S_i$均为 Kan 复形.
+    \end{itemize}
+\end{example}
+\begin{proposition}
+    $\cate{sSet}$中的群对象的底单纯集是 Kan 复形.
+\end{proposition}
+\begin{proof}
+    见\parencite[\href{https://kerodon.net/tag/00MG}{00MG}]{Kerodon}.
+\end{proof}
+\begin{proposition}\label{命题: Kan 复形乘积的连通性}
+    若$S = \prod_{i\in I}S_i$为 Kan 复形,则
+    \[
+        \pi_0(S) \to \prod_{i\in I}\pi_0(S_i)
+    \]
+    为双射.特别地,$S$是连通的当且仅当$S_i$均连通.
+\end{proposition}
+
+\section{本讲习题}
+\begin{exercise}
+    验证:对于拓扑空间$E$,其对应的奇异单纯集$\Sing(E)$是 Kan 复形.
+\end{exercise}
+\begin{solution}
+    利用几何实现函子,可以将$\sigma_0:\Lambda_i^n \to \Sing(E)$转化为$f_0:|\Lambda_i^n| \to E$.只需要说明$f_0$可以写为分解
+    \[
+        |\Lambda_i^n| \hookrightarrow |\Delta^n|\xrightarrow{f} E
+    \]
+    即可.为此,可以利用$\Lambda_i^n$的几何实现与$|\Delta^n|$之间的关联.
+\end{solution}
+\begin{exercise}[骨架与同构]
+    令$f: X \to Y$为诱导出$2$-骨架之间同构$\sk_2(X) \to \sk_2(Y)$的单纯集之间的映射,试证明其诱导的同伦范畴之间的函子$hf : hX\to hY$为等价.
+\end{exercise}
+\begin{exercise}[填色游戏]
+    令$X$为脊可填充(即$I^n \to \Delta^n$满足提升性质)且对于$3$-内尖角具有提升性质,令$f$和$g$为$\mathcal{C}$中可复合的$1$-单形.则
+    \begin{enumerate}
+        \item 存在$f$与$g$的复合.
+        \item 定义\ref{定义:1-单形等价}所提出的``等价''确实是一个等价关系.
+        \item 任意两个可复合的态射$f$和$g$在定义\ref{定义:1-单形等价}的意义下是等价的.
+        \item 给定$2$-单形$\sigma$,且$\sigma\mid_{\Delta^{\{0,1\}}}=\identity_x$,$\sigma\mid_{\Delta^{\{1,2\}}}=h$,$\sigma\mid_{\Delta^{\{0,2\}}}=h'$,则$h' \sim h$.
+    \end{enumerate}
+\end{exercise}
+\begin{solution}
+    1. 是由定义立刻得出的而2.,3.,4.都是填色游戏,比如2.中对称性可以考虑
+    \[\begin{tikzcd}
+	& y \\
+	&& y \\
+	x && y
+	\arrow["{\identity_y}"', from=2-3, to=1-2]
+	\arrow["{\identity_y}", from=2-3, to=3-3]
+	\arrow["f", from=3-1, to=1-2]
+	\arrow["f", from=3-1, to=2-3]
+	\arrow["g"', from=3-1, to=3-3]
+	\arrow["{\identity_y}"', from=3-3, to=1-2]
+    \end{tikzcd}\]
+    利用填充性质进行涂色即可,传递性考虑
+    \[\begin{tikzcd}
+	& y \\
+	&& y \\
+	x && y
+	\arrow["{\identity_y}"', from=2-3, to=1-2]
+	\arrow["{\identity_y}", from=2-3, to=3-3]
+	\arrow["h", from=3-1, to=1-2]
+	\arrow["f", from=3-1, to=2-3]
+	\arrow["g"', from=3-1, to=3-3]
+	\arrow["{\identity_y}"', from=3-3, to=1-2]
+    \end{tikzcd}\]
+    剩下命题请读者自行涂色.
+\end{solution}
+\begin{exercise}
+    范畴的脉是$2$-余骨架.
+\end{exercise}
+\begin{solution}
+    考虑交换图表
+    \[\begin{tikzcd}
+	{\Fct(hX,\mathcal{C})} & {\Hom_{\cate{sSet}}(X,\nerve\mathcal{C})} \\
+	{\Fct(h(\sk_2X),\mathcal{C})} & {\Hom_{\cate{sSet}}(\sk_2X,\nerve\mathcal{C})} & {\Hom_{\cate{sSet}}(X,\cosk_2\nerve\mathcal{C})}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-2, to=2-3]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+    \end{tikzcd}\]
+    利用伴随性以及前文练习验证交换性即可.
+\end{solution}
+\begin{exercise}
+    $\infty$-范畴的乘积以及余积均为$\infty$-范畴.
+\end{exercise}
+\begin{solution}
+    对于乘积的情况,我们可以单独对于每个$\infty$-范畴进行处理,然后延拓到乘积之上.\\
+    对于余积的情况,我们注意到$\Lambda_i^n$以及$\Delta^n$都是连通的,因此我们只需要在一个$\infty$-范畴上解决延拓问题即可.
+\end{solution}
